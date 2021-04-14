@@ -97,5 +97,38 @@ public class GameLogic {
         return isValid;
     }
 
+    public void move(Player player, int row, int col, int direction) {
+
+        if (isValidMove(player, row, col, direction)) {
+            switch (direction) {
+                case RIGHT: {
+                    grid[row][col+1] = grid[row][col];
+                    grid[row][col] = 0;
+                    break;
+                }
+                case LEFT: {
+                    grid[row][col-1] = grid[row][col];
+                    grid[row][col] = 0;
+                    break;
+                }
+                case UP: {
+                    grid[row-1][col] = grid[row][col];
+                    grid[row][col] = 0;
+                    break;
+                }
+                case DOWN: {
+                    grid[row+1][col] = grid[row][col];
+                    grid[row][col] = 0;
+                    break;
+                }
+
+            }
+        }
+        else {
+            System.out.println("You can't move there!");
+        }
+
+    }
+
 
 }
