@@ -1,6 +1,7 @@
 package puckgame.javafx.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -46,6 +47,7 @@ public class GameController {
                     int y = squareSize / 2 + squareSize * (0+j);
                     Puck puck = new Puck(x, y, radius, c, 1);
                     pucks.add(puck);
+                    dealWithClick(c, puck);
                     pane.getChildren().add(c);
                     puck.draw();
 
@@ -59,6 +61,7 @@ public class GameController {
                     int y = squareSize / 2 + squareSize * (0+j);
                     Puck puck = new Puck(x, y, radius, c, 2);
                     pucks.add(puck);
+                    dealWithClick(c, puck);
                     pane.getChildren().add(c);
                     puck.draw();
 
@@ -69,5 +72,30 @@ public class GameController {
             }
         }
     }
+
+    public void dealWithClick(Circle c, Puck puck) {
+        c.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, puck));
+        c.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, puck));
+        c.setOnMouseReleased(mouseEvent -> mouseReleased(mouseEvent, puck));
+    }
+
+    public void mousePressed(MouseEvent mouseEvent, Puck puck) {
+
+    }
+
+    public void mouseDragged(MouseEvent mouseEvent, Puck puck) {
+        puck.setX(puck.getX() + mouseEvent.getX());
+        puck.setY(puck.getY() + mouseEvent.getY());
+        puck.draw();
+    }
+
+    public void mouseReleased(MouseEvent mouseEvent, Puck puck) {
+        int gridX = (int) puck.getX() / squareSize;
+        int gridY = (int) puck.getY() / squareSize;
+        puck.setX(squareSize / 2 + squareSize * gridX);
+        puck.setY(squareSize / 2 + squareSize * gridY);
+        puck.draw();
+    }
+
 
 }
