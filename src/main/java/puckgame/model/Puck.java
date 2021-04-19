@@ -54,4 +54,10 @@ public class Puck {
         c.setTranslateY(y);
     }
 
+    public void remove() {
+        c.setRadius(0);
+        c.setTranslateX(0);
+        c.setTranslateY(0);
+    }
+
 }
