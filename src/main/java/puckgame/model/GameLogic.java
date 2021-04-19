@@ -189,5 +189,14 @@ public class GameLogic {
         }
     }
 
+    public boolean isGameOver(Player player1) {
+        if (hasBlueWon(player1) || hasRedWon()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 
 }
