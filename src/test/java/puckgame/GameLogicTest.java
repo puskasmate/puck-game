@@ -74,4 +74,43 @@ public class GameLogicTest {
         assertFalse(gameLogic.isValidMove(player2, 4, 0, 1));
     }
 
+    @Test
+    void testHasBlueWon() {
+        player1 = new Player("p1", 1, 0);
+        gameLogic = new GameLogic(new int[][]{
+                {2, 2, 2, 0, 1},
+                {2, 0, 0, 2, 0},
+                {2, 0, 1, 0, 2},
+                {0, 2, 0, 2, 0},
+                {1, 0, 0, 2, 2}
+        });
+
+        assertTrue(gameLogic.hasBlueWon(player1));
+        gameLogic = new GameLogic(new int[][]{
+                {2, 2, 2, 0, 1},
+                {2, 2, 0, 1, 0},
+                {0, 2, 0, 0, 2},
+                {0, 2, 2, 2, 0},
+                {1, 0, 2, 2, 2}
+        });
+        assertTrue(gameLogic.hasBlueWon(player1));
+
+        gameLogic = new GameLogic(new int[][]{
+                {2, 2, 2, 2, 1},
+                {2, 0, 0, 1, 0},
+                {0, 2, 0, 2, 2},
+                {2, 0, 2, 0, 0},
+                {1, 2, 0, 2, 2}
+        });
+        assertFalse(gameLogic.hasBlueWon(player1));
+
+        gameLogic = new GameLogic(new int[][]{
+                {2, 2, 2, 0, 1},
+                {1, 0, 2, 0, 0},
+                {0, 2, 0, 2, 2},
+                {0, 2, 2, 0, 0},
+                {1, 0, 0, 2, 0}
+        });
+        assertFalse(gameLogic.hasBlueWon(player1));
+    }
 }
