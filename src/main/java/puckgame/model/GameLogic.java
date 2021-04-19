@@ -1,5 +1,8 @@
 package puckgame.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameLogic {
 
     private static final int RIGHT = 0;
@@ -128,6 +131,31 @@ public class GameLogic {
             System.out.println("You can't move there!");
         }
 
+    }
+
+    public boolean hasRedWon() {
+        boolean duplicates = false;
+
+        ArrayList<Integer> xCors = new ArrayList<>();
+        ArrayList<Integer> yCors = new ArrayList<>();
+        for(int row = 0; row < grid.length; row++) {
+            for(int col = 0; col < grid.length; col++) {
+                if (grid[row][col] == 1) {
+                    xCors.add(row);
+                    yCors.add(col);
+                }
+            }
+        }
+
+        for(int i = 0; i < xCors.size(); i++) {
+            for(int j = i+1; j < xCors.size(); j++) {
+                if(i != j && xCors.get(i) == xCors.get(j) || yCors.get(i) == yCors.get(j)) {
+                    duplicates = true;
+                }
+            }
+        }
+
+        return duplicates;
     }
 
 
