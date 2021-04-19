@@ -1,11 +1,14 @@
 package puckgame.javafx.controller;
 
 import javafx.fxml.FXML;
+import javafx.print.PageLayout;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import puckgame.model.GameLogic;
+import puckgame.model.Player;
 import puckgame.model.Puck;
 
 import java.util.ArrayList;
@@ -19,6 +22,12 @@ public class GameController {
     private int spots = 5;
     private int squareSize = size / spots;
     private ArrayList<Puck> pucks;
+    private GameLogic gameLogic;
+    private Player player1;
+    private Player player2;
+    private Player currentPlayer;
+    private int prevX;
+    private int prevY;
 
     @FXML
     public void initialize() {
@@ -26,6 +35,12 @@ public class GameController {
     }
 
     public void initGame() {
+        prevX = 0;
+        prevY = 0;
+        gameLogic = new GameLogic();
+        player1 = new Player("p1", 1, 0);
+        player2 = new Player("p2", 2, 0);
+        currentPlayer = player1;
         for (int i = 0; i < size; i += squareSize) {
             for (int j = 0; j < size; j += squareSize) {
                 Rectangle r = new Rectangle(i, j, squareSize, squareSize);
@@ -73,6 +88,15 @@ public class GameController {
         }
     }
 
+    public void switchCurrentPlayer() {
+        if (currentPlayer.equals(player1)) {
+            currentPlayer = player2;
+        }
+        else {
+            currentPlayer = player1;
+        }
+    }
+
     public void dealWithClick(Circle c, Puck puck) {
         c.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, puck));
         c.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, puck));
@@ -80,7 +104,8 @@ public class GameController {
     }
 
     public void mousePressed(MouseEvent mouseEvent, Puck puck) {
-
+        prevX = (int) puck.getX() / squareSize;
+        prevY = (int) puck.getY() / squareSize;
     }
 
     public void mouseDragged(MouseEvent mouseEvent, Puck puck) {
@@ -92,9 +117,39 @@ public class GameController {
     public void mouseReleased(MouseEvent mouseEvent, Puck puck) {
         int gridX = (int) puck.getX() / squareSize;
         int gridY = (int) puck.getY() / squareSize;
-        puck.setX(squareSize / 2 + squareSize * gridX);
-        puck.setY(squareSize / 2 + squareSize * gridY);
-        puck.draw();
+        int dir;
+        if (gridX == prevX + 1 && gridY == prevY) {
+            dir = 0;
+        } else {
+            if (gridX == prevX -1 && gridY == prevY) {
+                dir = 1;
+            } else {
+                if (gridY == prevY -1 && gridX == prevX) {
+                    dir = 2;
+                } else {
+                    if (gridY == prevY + 1 && gridX == prevX) {
+                        dir = 3;
+                    } else {
+                        dir = -1;
+                    }
+                }
+            }
+        }
+        if (gameLogic.isValidMove(currentPlayer, prevY, prevX, dir)) {
+            gameLogic.move(currentPlayer, prevY, prevX, dir);
+
+            prevX = 0;
+            prevY = 0;
+            puck.setX(squareSize / 2 + squareSize * gridX);
+            puck.setY(squareSize / 2 + squareSize * gridY);
+            puck.draw();
+            switchCurrentPlayer();
+        } else {
+            puck.setX(squareSize / 2 + squareSize * prevX);
+            puck.setY(squareSize / 2 + squareSize * prevY);
+            puck.draw();
+        }
+
     }
 
 
