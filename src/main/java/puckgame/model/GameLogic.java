@@ -1,7 +1,6 @@
 package puckgame.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GameLogic {
 
@@ -156,6 +155,38 @@ public class GameLogic {
         }
 
         return duplicates;
+    }
+
+    public boolean hasBlueWon(Player player1) {
+        int count = 0;
+        ArrayList<Integer> xCors = new ArrayList<>();
+        ArrayList<Integer> yCors = new ArrayList<>();
+
+        for(int row = 0; row < grid.length; row++) {
+            for(int col = 0; col < grid.length; col++) {
+                if(grid[row][col] == 1) {
+                    xCors.add(row);
+                    yCors.add(col);
+                }
+            }
+        }
+
+        for(int i = 0; i < 3; i++) {
+            if (!isValidMove(player1, xCors.get(i), yCors.get(i), 0)
+            && !isValidMove(player1, xCors.get(i), yCors.get(i), 1)
+            && !isValidMove(player1, xCors.get(i), yCors.get(i), 2)
+            && !isValidMove(player1, xCors.get(i), yCors.get(i), 3)) {
+                count++;
+            }
+        }
+
+        if (count == 3) {
+            return true;
+        }
+
+        else {
+            return false;
+        }
     }
 
 
