@@ -113,4 +113,63 @@ public class GameLogicTest {
         });
         assertFalse(gameLogic.hasBlueWon(player1));
     }
+
+    @Test
+    void testHasRedWon() {
+        gameLogic = new GameLogic(new int[][]{
+                {2, 2, 2, 2, 1},
+                {2, 0, 0, 1, 0},
+                {0, 2, 0, 2, 2},
+                {2, 0, 2, 0, 0},
+                {1, 2, 0, 2, 2}
+        });
+        assertFalse(gameLogic.hasRedWon());
+
+        gameLogic = new GameLogic(new int[][]{
+                {2, 2, 2, 2, 1},
+                {2, 0, 0, 0, 0},
+                {0, 2, 0, 2, 2},
+                {1, 0, 2, 0, 0},
+                {1, 2, 0, 2, 2}
+        });
+        assertTrue(gameLogic.hasRedWon());
+
+        gameLogic = new GameLogic(new int[][]{
+                {2, 2, 2, 2, 1},
+                {2, 0, 0, 0, 0},
+                {0, 2, 0, 2, 2},
+                {2, 0, 2, 0, 0},
+                {0, 1, 1, 2, 2}
+        });
+        assertTrue(gameLogic.hasRedWon());
+
+        gameLogic = new GameLogic(new int[][]{
+                {2, 2, 2, 2, 1},
+                {2, 0, 1, 0, 0},
+                {0, 2, 1, 2, 2},
+                {2, 0, 2, 0, 0},
+                {0, 2, 0, 2, 2}
+        });
+        assertTrue(gameLogic.hasRedWon());
+
+        gameLogic = new GameLogic(new int[][]{
+                {2, 2, 2, 2, 1},
+                {2, 0, 0, 2, 2},
+                {0, 1, 0, 1, 2},
+                {2, 0, 2, 0, 0},
+                {0, 2, 0, 2, 2}
+        });
+        assertTrue(gameLogic.hasRedWon());
+
+        gameLogic = new GameLogic(new int[][]{
+                {2, 2, 2, 2, 2},
+                {2, 0, 0, 1, 0},
+                {0, 2, 1, 2, 2},
+                {2, 0, 2, 0, 0},
+                {0, 2, 0, 2, 1}
+        });
+
+        assertFalse(gameLogic.hasRedWon());
+    }
+
 }
