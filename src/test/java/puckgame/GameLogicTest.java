@@ -51,4 +51,27 @@ public class GameLogicTest {
         assertFalse(gameLogic.isValidMove(player1, 0, 0 ,0));
     }
 
+    @Test
+    void testIsValidMove() {
+        player1 = new Player("p1", 1 , 0);
+        player2 = new Player("p2", 2, 0);
+        gameLogic = new GameLogic(new int[][]{
+                {2, 2, 2, 2, 1},
+                {2, 0, 0, 1, 0},
+                {0, 2, 0, 2, 2},
+                {2, 0, 2, 0, 0},
+                {1, 2, 0, 2, 2}
+        });
+
+        assertTrue(gameLogic.isValidMove(player1, 0, 4, 1));
+        assertFalse(gameLogic.isValidMove(player1, 0, 4, 3));
+        assertFalse(gameLogic.isValidMove(player2, 2, 4, 1));
+        assertFalse(gameLogic.isValidMove(player1, 0, 4, 0));
+        assertTrue(gameLogic.isValidMove(player2, 2, 1, 2));
+        assertFalse(gameLogic.isValidMove(player1, 2, 1, 2));
+        assertTrue(gameLogic.isValidMove(player1, 4, 0, 0));
+        assertFalse(gameLogic.isValidMove(player1, 4, 0, 1));
+        assertFalse(gameLogic.isValidMove(player2, 4, 0, 1));
+    }
+
 }
