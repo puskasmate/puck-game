@@ -136,12 +136,18 @@ public class GameController {
             }
         }
         if (gameLogic.isValidMove(currentPlayer, prevY, prevX, dir)) {
+            int dirX = (int)(squareSize / 2) + squareSize * gridX;
+            int dirY = (int)(squareSize / 2) + squareSize * gridY;
             gameLogic.move(currentPlayer, prevY, prevX, dir);
-
-            prevX = 0;
-            prevY = 0;
-            puck.setX(squareSize / 2 + squareSize * gridX);
-            puck.setY(squareSize / 2 + squareSize * gridY);
+            if (puck.getPlayerId() == 1) {
+                for (int i = 0; i < pucks.size(); i++) {
+                    removeRedPuck(pucks.get(i), dirX, dirY);
+                }
+            }
+            //prevX = 0;
+            //prevY = 0;
+            puck.setX(dirX);
+            puck.setY(dirY);
             puck.draw();
             switchCurrentPlayer();
         } else {
@@ -150,6 +156,12 @@ public class GameController {
             puck.draw();
         }
 
+    }
+
+    public void removeRedPuck(Puck puck, int dirX, int dirY) {
+        if (puck.getPlayerId() == 2 && puck.getX() == dirX && puck.getY() == dirY) {
+            puck.remove();
+        }
     }
 
 
