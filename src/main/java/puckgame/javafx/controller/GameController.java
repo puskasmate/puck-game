@@ -1,7 +1,9 @@
 package puckgame.javafx.controller;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -32,6 +34,12 @@ public class GameController {
 
     @FXML
     private Text p2steps;
+
+    @FXML
+    private Button exitButton;
+
+    @FXML
+    private Button resetButton;
 
     private int size = 400;
     private int spots = 5;
@@ -219,6 +227,18 @@ public class GameController {
     public void setPlayersName(String p1name, String p2name) {
         this.p1name = p1name;
         this.p2name = p2name;
+    }
+
+    public void exitGame(ActionEvent actionEvent) {
+        log.debug("{} button is pressed", ((Button)actionEvent.getSource()).getText());
+        log.info("Exiting...");
+        Platform.exit();
+    }
+
+    public void resetGame(ActionEvent actionEvent) {
+        log.debug("{} button is pressed", ((Button)actionEvent.getSource()).getText());
+        log.info("Resetting game...");
+        initGame();
     }
 
 }

@@ -12,10 +12,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-
+@Slf4j
 public class LaunchController {
 
     @FXML
@@ -50,9 +51,12 @@ public class LaunchController {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+        log.info("The names has been set to {} and {}, loading game scene", p1name.getText(), p2name.getText());
     }
 
-    public void exitGame() {
+    public void exitGame(ActionEvent actionEvent) {
+        log.debug("{} button is pressed", ((Button)actionEvent.getSource()).getText());
+        log.info("Exiting...");
         Platform.exit();
     }
 
