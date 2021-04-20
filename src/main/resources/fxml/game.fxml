@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puckgame.javafx.controller.GameController">
-   <center>
-      <Pane fx:id="pane" prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
-   </center>
-</BorderPane>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puckgame.javafx.controller.GameController">
+   <children>
+      <Pane fx:id="pane" layoutX="100.0" layoutY="100.0" prefHeight="400.0" prefWidth="400.0" />
+      <Text fx:id="p1name" layoutX="100.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="p2name" layoutX="471.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="p1steps" layoutX="100.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="p2steps" layoutX="471.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+   </children>
+</Pane>

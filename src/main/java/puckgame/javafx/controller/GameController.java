@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import lombok.extern.slf4j.Slf4j;
 import puckgame.model.GameLogic;
 import puckgame.model.Player;
@@ -18,6 +19,18 @@ public class GameController {
 
     @FXML
     private Pane pane;
+
+    @FXML
+    private Text p1name;
+
+    @FXML
+    private Text p2name;
+
+    @FXML
+    private Text p1steps;
+
+    @FXML
+    private Text p2steps;
 
     private int size = 400;
     private int spots = 5;
