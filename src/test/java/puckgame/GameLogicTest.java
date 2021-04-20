@@ -1,11 +1,13 @@
 package puckgame;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import puckgame.model.GameLogic;
 import puckgame.model.Player;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Slf4j
 public class GameLogicTest {
 
     GameLogic gameLogic;
@@ -15,6 +17,7 @@ public class GameLogicTest {
     @Test
     void testIsValidMoveAtStartingState() {
         gameLogic = new GameLogic();
+        gameLogic.setLogEnabled(false);
         player1 = new Player("p1", 1, 0);
         player2 = new Player("p2", 2, 0);
 
@@ -62,6 +65,7 @@ public class GameLogicTest {
                 {2, 0, 2, 0, 0},
                 {1, 2, 0, 2, 2}
         });
+        gameLogic.setLogEnabled(false);
 
         assertTrue(gameLogic.isValidMove(player1, 0, 4, 1));
         assertFalse(gameLogic.isValidMove(player1, 0, 4, 3));
@@ -84,8 +88,10 @@ public class GameLogicTest {
                 {0, 2, 0, 2, 0},
                 {1, 0, 0, 2, 2}
         });
+        gameLogic.setLogEnabled(false);
+        gameLogic.setBluePlayer(player1);
+        assertTrue(gameLogic.hasBlueWon());
 
-        assertTrue(gameLogic.hasBlueWon(player1));
         gameLogic = new GameLogic(new int[][]{
                 {2, 2, 2, 0, 1},
                 {2, 2, 0, 1, 0},
@@ -93,7 +99,9 @@ public class GameLogicTest {
                 {0, 2, 2, 2, 0},
                 {1, 0, 2, 2, 2}
         });
-        assertTrue(gameLogic.hasBlueWon(player1));
+        gameLogic.setLogEnabled(false);
+        gameLogic.setBluePlayer(player1);
+        assertTrue(gameLogic.hasBlueWon());
 
         gameLogic = new GameLogic(new int[][]{
                 {2, 2, 2, 2, 1},
@@ -102,7 +110,9 @@ public class GameLogicTest {
                 {2, 0, 2, 0, 0},
                 {1, 2, 0, 2, 2}
         });
-        assertFalse(gameLogic.hasBlueWon(player1));
+        gameLogic.setLogEnabled(false);
+        gameLogic.setBluePlayer(player1);
+        assertFalse(gameLogic.hasBlueWon());
 
         gameLogic = new GameLogic(new int[][]{
                 {2, 2, 2, 0, 1},
@@ -111,7 +121,9 @@ public class GameLogicTest {
                 {0, 2, 2, 0, 0},
                 {1, 0, 0, 2, 0}
         });
-        assertFalse(gameLogic.hasBlueWon(player1));
+        gameLogic.setLogEnabled(false);
+        gameLogic.setBluePlayer(player1);
+        assertFalse(gameLogic.hasBlueWon());
     }
 
     @Test
@@ -182,7 +194,9 @@ public class GameLogicTest {
                 {2, 0, 2, 0, 0},
                 {0, 2, 0, 2, 1}
         });
-        assertFalse(gameLogic.isGameOver(player1));
+        gameLogic.setLogEnabled(false);
+        gameLogic.setBluePlayer(player1);
+        assertFalse(gameLogic.isGameOver());
 
         gameLogic = new GameLogic(new int[][]{
                 {2, 2, 2, 0, 1},
@@ -191,7 +205,9 @@ public class GameLogicTest {
                 {0, 2, 2, 2, 0},
                 {1, 0, 2, 2, 2}
         });
-        assertTrue(gameLogic.isGameOver(player1));
+        gameLogic.setLogEnabled(false);
+        gameLogic.setBluePlayer(player1);
+        assertTrue(gameLogic.isGameOver());
 
         gameLogic = new GameLogic(new int[][]{
                 {2, 2, 2, 2, 1},
@@ -200,7 +216,9 @@ public class GameLogicTest {
                 {2, 0, 2, 0, 0},
                 {0, 2, 0, 2, 2}
         });
-        assertTrue(gameLogic.isGameOver(player1));
+        gameLogic.setLogEnabled(false);
+        gameLogic.setBluePlayer(player1);
+        assertTrue(gameLogic.isGameOver());
 
         gameLogic = new GameLogic(new int[][]{
                 {2, 2, 2, 0, 1},
@@ -209,7 +227,9 @@ public class GameLogicTest {
                 {0, 2, 2, 0, 0},
                 {1, 0, 0, 2, 0}
         });
-        assertTrue(gameLogic.isGameOver(player1));
+        gameLogic.setLogEnabled(false);
+        gameLogic.setBluePlayer(player1);
+        assertTrue(gameLogic.isGameOver());
 
         gameLogic = new GameLogic(new int[][]{
                 {2, 2, 2, 2, 1},
@@ -218,7 +238,9 @@ public class GameLogicTest {
                 {2, 0, 2, 0, 0},
                 {1, 2, 0, 2, 2}
         });
-        assertFalse(gameLogic.isGameOver(player1));
+        gameLogic.setLogEnabled(false);
+        gameLogic.setBluePlayer(player1);
+        assertFalse(gameLogic.isGameOver());
     }
 
 }

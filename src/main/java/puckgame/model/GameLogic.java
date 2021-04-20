@@ -1,9 +1,14 @@
 package puckgame.model;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 
+@Data
 @Slf4j
 public class GameLogic {
 
@@ -12,6 +17,20 @@ public class GameLogic {
     private static final int UP = 2;
     private static final int DOWN = 3;
 
+    @Setter(AccessLevel.PUBLIC)
+    private boolean logEnabled = true;
+
+    @Setter(AccessLevel.PUBLIC)
+    private Player bluePlayer;
+
+    @Setter(AccessLevel.PUBLIC)
+    private Player redPlayer;
+
+    @Getter(AccessLevel.PUBLIC)
+    private Player winner;
+
+    @Getter(AccessLevel.PUBLIC)
+    @Setter(AccessLevel.PUBLIC)
     private int [][] grid = {
             {2, 2, 2, 2, 1},
             {2, 2, 2, 2, 2},
@@ -31,7 +50,9 @@ public class GameLogic {
         boolean isValid = false;
 
         if (player.getPlayerId() == 1 && grid[row][col] == 2 || !(player.getPlayerId() == 1) && grid[row][col] == 1) {
-            log.info("You can not move, because it is {}'s turn!", player.getName());
+            if (logEnabled) {
+                log.info("You can not move, because it is {}'s turn!", player.getName());
+            }
             isValid = false;
         }
 
@@ -43,7 +64,9 @@ public class GameLogic {
                             if (grid[row][col + 1] == 2) {
                                 isValid = true;
                             } else {
-                                log.info("You can not move there, because there is no red puck on field ({}, {})!", (col + 1) + 1, row + 1);
+                                if (logEnabled) {
+                                    log.info("You can not move there, because there is no red puck on field ({}, {})!", (col + 1) + 1, row + 1);
+                                }
                             }
                             break;
                         }
@@ -51,7 +74,9 @@ public class GameLogic {
                             if (grid[row][col - 1] == 2) {
                                 isValid = true;
                             } else {
-                                log.info("You can not move there, because there is no red puck on field ({}, {})!", (col - 1) + 1, row + 1);
+                                if (logEnabled) {
+                                    log.info("You can not move there, because there is no red puck on field ({}, {})!", (col - 1) + 1, row + 1);
+                                }
                             }
                             break;
                         }
@@ -59,7 +84,9 @@ public class GameLogic {
                             if (grid[row - 1][col] == 2) {
                                 isValid = true;
                             } else {
-                                log.info("You can not move there, because there is no red puck on field ({}, {})!", col + 1, (row - 1) + 1);
+                                if (logEnabled) {
+                                    log.info("You can not move there, because there is no red puck on field ({}, {})!", col + 1, (row - 1) + 1);
+                                }
                             }
                             break;
                         }
@@ -67,12 +94,16 @@ public class GameLogic {
                             if (grid[row + 1][col] == 2) {
                                 isValid = true;
                             } else {
-                                log.info("You can not move there, because there is no red puck on field ({}, {})!", col + 1, (row + 1) + 1);
+                                if (logEnabled) {
+                                    log.info("You can not move there, because there is no red puck on field ({}, {})!", col + 1, (row + 1) + 1);
+                                }
                             }
                             break;
                         }
                         default:
-                            log.info("Invalid direction, you can not move to that space!");
+                            if (logEnabled) {
+                                log.info("Invalid direction, you can not move to that space!");
+                            }
                             isValid = false;
                     }
                 } else {
@@ -82,7 +113,9 @@ public class GameLogic {
                                 if (grid[row][col + 1] == 0) {
                                     isValid = true;
                                 } else {
-                                    log.info("You can not move there, because the ({}, {}) field is not empty!", (col + 1) + 1, row + 1);
+                                    if (logEnabled) {
+                                        log.info("You can not move there, because the ({}, {}) field is not empty!", (col + 1) + 1, row + 1);
+                                    }
                                 }
                                 break;
                             }
@@ -90,7 +123,9 @@ public class GameLogic {
                                 if (grid[row][col - 1] == 0) {
                                     isValid = true;
                                 } else {
-                                    log.info("You can not move there, because the ({}, {}) field is not empty!", (col - 1) + 1, row + 1);
+                                    if (logEnabled) {
+                                        log.info("You can not move there, because the ({}, {}) field is not empty!", (col - 1) + 1, row + 1);
+                                    }
                                 }
                                 break;
                             }
@@ -98,7 +133,9 @@ public class GameLogic {
                                 if (grid[row - 1][col] == 0) {
                                     isValid = true;
                                 } else {
-                                    log.info("You can not move there, because the ({}, {}) field is not empty!", col + 1, (row - 1) + 1);
+                                    if (logEnabled) {
+                                        log.info("You can not move there, because the ({}, {}) field is not empty!", col + 1, (row - 1) + 1);
+                                    }
                                 }
                                 break;
                             }
@@ -106,18 +143,24 @@ public class GameLogic {
                                 if (grid[row + 1][col] == 0) {
                                     isValid = true;
                                 } else {
-                                    log.info("You can not move there, because the ({}, {}) field is not empty!", col + 1, (row + 1) + 1);
+                                    if (logEnabled) {
+                                        log.info("You can not move there, because the ({}, {}) field is not empty!", col + 1, (row + 1) + 1);
+                                    }
                                 }
                                 break;
                             }
                             default:
-                                log.info("Invalid direction, you can not move to that space!");
+                                if (logEnabled) {
+                                    log.info("Invalid direction, you can not move to that space!");
+                                }
                                 isValid = false;
                         }
                     }
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
-                log.warn("You can not move out of the field!");
+                if (logEnabled) {
+                    log.warn("You can not move out of the field!");
+                }
                 isValid = false;
             }
         }
@@ -183,7 +226,7 @@ public class GameLogic {
         return duplicates;
     }
 
-    public boolean hasBlueWon(Player player1) {
+    public boolean hasBlueWon() {
         int count = 0;
         ArrayList<Integer> xCors = new ArrayList<>();
         ArrayList<Integer> yCors = new ArrayList<>();
@@ -196,12 +239,11 @@ public class GameLogic {
                 }
             }
         }
-
         for(int i = 0; i < 3; i++) {
-            if (!isValidMove(player1, xCors.get(i), yCors.get(i), 0)
-            && !isValidMove(player1, xCors.get(i), yCors.get(i), 1)
-            && !isValidMove(player1, xCors.get(i), yCors.get(i), 2)
-            && !isValidMove(player1, xCors.get(i), yCors.get(i), 3)) {
+            if (!isValidMove(bluePlayer, xCors.get(i), yCors.get(i), 0)
+            && !isValidMove(bluePlayer, xCors.get(i), yCors.get(i), 1)
+            && !isValidMove(bluePlayer, xCors.get(i), yCors.get(i), 2)
+            && !isValidMove(bluePlayer, xCors.get(i), yCors.get(i), 3)) {
                 count++;
             }
         }
@@ -215,8 +257,8 @@ public class GameLogic {
         }
     }
 
-    public boolean isGameOver(Player player1) {
-        if (hasBlueWon(player1) || hasRedWon()) {
+    public boolean isGameOver() {
+        if (hasBlueWon() || hasRedWon()) {
             return true;
         }
         else {
