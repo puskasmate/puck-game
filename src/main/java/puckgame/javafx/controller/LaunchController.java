@@ -39,6 +39,7 @@ public class LaunchController {
         startButton.disableProperty().bind(
                 Bindings.isEmpty(p1name.textProperty())
                 .or(Bindings.isEmpty(p2name.textProperty()))
+                .or(Bindings.equal(p1name.textProperty(), p2name.textProperty()))
         );
     }
 
