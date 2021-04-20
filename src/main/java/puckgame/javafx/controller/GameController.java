@@ -65,6 +65,8 @@ public class GameController {
         gameLogic = new GameLogic();
         player1 = new Player(p1nameText.getText(), 1, 0);
         player2 = new Player(p2nameText.getText(), 2, 0);
+        p1steps.setText("Steps: " + player1.getStepCount());
+        p2steps.setText("Steps: " + player2.getStepCount());
         gameLogic.setBluePlayer(player1);
         gameLogic.setRedPlayer(player2);
         currentPlayer = player1;
@@ -179,6 +181,7 @@ public class GameController {
                 puck.setX(dirX);
                 puck.setY(dirY);
                 puck.draw();
+                increasePlayerSteps(currentPlayer);
                 switchCurrentPlayer();
                 if (gameLogic.isGameOver()) {
                     if (gameLogic.hasBlueWon()) {
@@ -186,7 +189,7 @@ public class GameController {
                     } else {
                         gameLogic.setWinner(player2);
                     }
-                    log.info("Congratulations {}, you have won the game!", gameLogic.getWinner().getName());
+                    log.info("Congratulations {}, you have won the game in {} steps!", gameLogic.getWinner().getName(), gameLogic.getWinner().getStepCount());
                     gameOver = true;
                 }
             } else {
@@ -194,6 +197,16 @@ public class GameController {
                 puck.setY(squareSize / 2 + squareSize * prevY);
                 puck.draw();
             }
+        }
+    }
+
+    private void increasePlayerSteps(Player currentPlayer) {
+        currentPlayer.setStepCount(currentPlayer.getStepCount()+1);
+        if (currentPlayer.equals(player1)) {
+            p1steps.setText("Steps: " + player1.getStepCount());
+        }
+        else {
+            p2steps.setText("Steps: " + player2.getStepCount());
         }
     }
 
