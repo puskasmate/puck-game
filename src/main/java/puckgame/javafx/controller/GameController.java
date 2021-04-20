@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -41,6 +42,9 @@ public class GameController {
     @FXML
     private Button resetButton;
 
+    @FXML
+    private Label winnerLabel;
+
     private int size = 400;
     private int spots = 5;
     private int squareSize = size / spots;
@@ -75,6 +79,7 @@ public class GameController {
         player2 = new Player(p2nameText.getText(), 2, 0);
         p1steps.setText("Steps: " + player1.getStepCount());
         p2steps.setText("Steps: " + player2.getStepCount());
+        winnerLabel.setText("");
         gameLogic.setBluePlayer(player1);
         gameLogic.setRedPlayer(player2);
         currentPlayer = player1;
@@ -199,6 +204,7 @@ public class GameController {
                         gameLogic.setWinner(player2);
                     }
                     log.info("Congratulations {}, you have won the game in {} steps!", gameLogic.getWinner().getName(), gameLogic.getWinner().getStepCount());
+                    winnerLabel.setText(gameLogic.getWinner().getName() +" won the game!");
                     gameOver = true;
                 }
             } else {
