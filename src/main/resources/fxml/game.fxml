@@ -6,13 +6,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puckgame.javafx.controller.GameController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #F1FFDC" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puckgame.javafx.controller.GameController">
    <children>
       <Pane fx:id="pane" layoutX="100.0" layoutY="100.0" prefHeight="400.0" prefWidth="400.0" />
       <Text fx:id="p1nameText" layoutX="100.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="p2nameText" layoutX="500.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="p2nameText" layoutX="445.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Text fx:id="p1steps" layoutX="100.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="p2steps" layoutX="500.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="p2steps" layoutX="445.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Button fx:id="exitButton" layoutX="543.0" layoutY="562.0" mnemonicParsing="false" onAction="#exitGame" text="Exit" />
       <Button fx:id="resetButton" layoutX="269.0" layoutY="562.0" mnemonicParsing="false" onAction="#resetGame" text="Reset" />
       <Label fx:id="winnerLabel" alignment="CENTER" layoutY="514.0" prefHeight="35.0" prefWidth="600.0" textAlignment="CENTER" textFill="LIME" textOverrun="CENTER_ELLIPSIS">
