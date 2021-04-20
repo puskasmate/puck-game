@@ -78,6 +78,10 @@ public class GameController {
         gameLogic.setBluePlayer(player1);
         gameLogic.setRedPlayer(player2);
         currentPlayer = player1;
+        displayGrid();
+    }
+
+    public void displayGrid() {
         for (int i = 0; i < size; i += squareSize) {
             for (int j = 0; j < size; j += squareSize) {
                 Rectangle r = new Rectangle(i, j, squareSize, squareSize);
@@ -118,9 +122,6 @@ public class GameController {
                     puck.draw();
 
                 }
-
-
-
             }
         }
     }
