@@ -6,8 +6,8 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="puckgame.javafx.controller.GameController">
    <children>
       <Pane fx:id="pane" layoutX="100.0" layoutY="100.0" prefHeight="400.0" prefWidth="400.0" />
-      <Text fx:id="p1name" layoutX="100.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Text fx:id="p2name" layoutX="471.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="p1nameText" layoutX="100.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="p2nameText" layoutX="471.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Text fx:id="p1steps" layoutX="100.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Text fx:id="p2steps" layoutX="471.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>

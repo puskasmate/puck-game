@@ -1,5 +1,6 @@
 package puckgame.javafx.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -21,10 +22,10 @@ public class GameController {
     private Pane pane;
 
     @FXML
-    private Text p1name;
+    private Text p1nameText;
 
     @FXML
-    private Text p2name;
+    private Text p2nameText;
 
     @FXML
     private Text p1steps;
@@ -43,9 +44,17 @@ public class GameController {
     private int prevX;
     private int prevY;
     private boolean gameOver;
+    private String p1name;
+    private String p2name;
 
     @FXML
     public void initialize() {
+        Platform.runLater(() -> {
+            p1nameText.setText(p1name);
+            p2nameText.setText(p2name);
+            player1.setName(p1name);
+            player2.setName(p2name);
+        });
         initGame();
     }
 
@@ -54,8 +63,8 @@ public class GameController {
         prevX = 0;
         prevY = 0;
         gameLogic = new GameLogic();
-        player1 = new Player("p1", 1, 0);
-        player2 = new Player("p2", 2, 0);
+        player1 = new Player(p1nameText.getText(), 1, 0);
+        player2 = new Player(p2nameText.getText(), 2, 0);
         gameLogic.setBluePlayer(player1);
         gameLogic.setRedPlayer(player2);
         currentPlayer = player1;
@@ -192,6 +201,11 @@ public class GameController {
         if (puck.getPlayerId() == 2 && puck.getX() == dirX && puck.getY() == dirY) {
             puck.remove();
         }
+    }
+
+    public void setPlayersName(String p1name, String p2name) {
+        this.p1name = p1name;
+        this.p2name = p2name;
     }
 
 }

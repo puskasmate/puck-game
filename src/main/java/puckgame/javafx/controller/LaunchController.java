@@ -43,7 +43,10 @@ public class LaunchController {
 
     @FXML
     public void startGame(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/game.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/game.fxml"));
+        Parent root = loader.load();
+        GameController gameController = loader.<GameController>getController();
+        gameController.setPlayersName(p1name.getText(), p2name.getText());
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
