@@ -10,7 +10,7 @@ public class PuckGameApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/game.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/launch.fxml"));
         primaryStage.setTitle("Puck Game");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
