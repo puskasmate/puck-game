@@ -1,7 +1,6 @@
 package puckgame.javafx.controller;
 
 import javafx.fxml.FXML;
-import javafx.print.PageLayout;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -30,6 +29,7 @@ public class GameController {
     private Player currentPlayer;
     private int prevX;
     private int prevY;
+    private boolean gameOver;
 
     @FXML
     public void initialize() {
@@ -37,11 +37,14 @@ public class GameController {
     }
 
     public void initGame() {
+        gameOver = false;
         prevX = 0;
         prevY = 0;
         gameLogic = new GameLogic();
         player1 = new Player("p1", 1, 0);
         player2 = new Player("p2", 2, 0);
+        gameLogic.setBluePlayer(player1);
+        gameLogic.setRedPlayer(player2);
         currentPlayer = player1;
         for (int i = 0; i < size; i += squareSize) {
             for (int j = 0; j < size; j += squareSize) {
@@ -106,56 +109,70 @@ public class GameController {
     }
 
     public void mousePressed(MouseEvent mouseEvent, Puck puck) {
-        prevX = (int) puck.getX() / squareSize;
-        prevY = (int) puck.getY() / squareSize;
+        if (!gameOver) {
+            prevX = (int) puck.getX() / squareSize;
+            prevY = (int) puck.getY() / squareSize;
+        }
     }
 
     public void mouseDragged(MouseEvent mouseEvent, Puck puck) {
-        puck.setX(puck.getX() + mouseEvent.getX());
-        puck.setY(puck.getY() + mouseEvent.getY());
-        puck.draw();
+        if (!gameOver) {
+            puck.setX(puck.getX() + mouseEvent.getX());
+            puck.setY(puck.getY() + mouseEvent.getY());
+            puck.draw();
+        }
     }
 
     public void mouseReleased(MouseEvent mouseEvent, Puck puck) {
-        int gridX = (int) puck.getX() / squareSize;
-        int gridY = (int) puck.getY() / squareSize;
-        int dir;
-        if (gridX == prevX + 1 && gridY == prevY) {
-            dir = 0;
-        } else {
-            if (gridX == prevX -1 && gridY == prevY) {
-                dir = 1;
+        if (!gameOver) {
+            int gridX = (int) puck.getX() / squareSize;
+            int gridY = (int) puck.getY() / squareSize;
+            int dir;
+            if (gridX == prevX + 1 && gridY == prevY) {
+                dir = 0;
             } else {
-                if (gridY == prevY -1 && gridX == prevX) {
-                    dir = 2;
+                if (gridX == prevX - 1 && gridY == prevY) {
+                    dir = 1;
                 } else {
-                    if (gridY == prevY + 1 && gridX == prevX) {
-                        dir = 3;
+                    if (gridY == prevY - 1 && gridX == prevX) {
+                        dir = 2;
                     } else {
-                        dir = -1;
+                        if (gridY == prevY + 1 && gridX == prevX) {
+                            dir = 3;
+                        } else {
+                            dir = -1;
+                        }
                     }
                 }
             }
-        }
-        if (gameLogic.isValidMove(currentPlayer, prevY, prevX, dir)) {
-            int dirX = (int)(squareSize / 2) + squareSize * gridX;
-            int dirY = (int)(squareSize / 2) + squareSize * gridY;
-            gameLogic.move(currentPlayer, prevY, prevX, dir);
-            if (puck.getPlayerId() == 1) {
-                for (int i = 0; i < pucks.size(); i++) {
-                    removeRedPuck(pucks.get(i), dirX, dirY);
+            if (gameLogic.isValidMove(currentPlayer, prevY, prevX, dir)) {
+                int dirX = (int) (squareSize / 2) + squareSize * gridX;
+                int dirY = (int) (squareSize / 2) + squareSize * gridY;
+                gameLogic.move(currentPlayer, prevY, prevX, dir);
+                if (puck.getPlayerId() == 1) {
+                    for (int i = 0; i < pucks.size(); i++) {
+                        removeRedPuck(pucks.get(i), dirX, dirY);
+                    }
                 }
+                puck.setX(dirX);
+                puck.setY(dirY);
+                puck.draw();
+                switchCurrentPlayer();
+                if (gameLogic.isGameOver()) {
+                    if (gameLogic.hasBlueWon()) {
+                        gameLogic.setWinner(player1);
+                    } else {
+                        gameLogic.setWinner(player2);
+                    }
+                    log.info("Congratulations {}, you have won the game!", gameLogic.getWinner().getName());
+                    gameOver = true;
+                }
+            } else {
+                puck.setX(squareSize / 2 + squareSize * prevX);
+                puck.setY(squareSize / 2 + squareSize * prevY);
+                puck.draw();
             }
-            puck.setX(dirX);
-            puck.setY(dirY);
-            puck.draw();
-            switchCurrentPlayer();
-        } else {
-            puck.setX(squareSize / 2 + squareSize * prevX);
-            puck.setY(squareSize / 2 + squareSize * prevY);
-            puck.draw();
         }
-
     }
 
     public void removeRedPuck(Puck puck, int dirX, int dirY) {
@@ -163,6 +180,5 @@ public class GameController {
             puck.remove();
         }
     }
-
 
 }

@@ -88,7 +88,6 @@ public class GameLogicTest {
                 {0, 2, 0, 2, 0},
                 {1, 0, 0, 2, 2}
         });
-        gameLogic.setLogEnabled(false);
         gameLogic.setBluePlayer(player1);
         assertTrue(gameLogic.hasBlueWon());
 
@@ -99,7 +98,6 @@ public class GameLogicTest {
                 {0, 2, 2, 2, 0},
                 {1, 0, 2, 2, 2}
         });
-        gameLogic.setLogEnabled(false);
         gameLogic.setBluePlayer(player1);
         assertTrue(gameLogic.hasBlueWon());
 
@@ -110,7 +108,6 @@ public class GameLogicTest {
                 {2, 0, 2, 0, 0},
                 {1, 2, 0, 2, 2}
         });
-        gameLogic.setLogEnabled(false);
         gameLogic.setBluePlayer(player1);
         assertFalse(gameLogic.hasBlueWon());
 
@@ -121,7 +118,6 @@ public class GameLogicTest {
                 {0, 2, 2, 0, 0},
                 {1, 0, 0, 2, 0}
         });
-        gameLogic.setLogEnabled(false);
         gameLogic.setBluePlayer(player1);
         assertFalse(gameLogic.hasBlueWon());
     }
@@ -194,7 +190,6 @@ public class GameLogicTest {
                 {2, 0, 2, 0, 0},
                 {0, 2, 0, 2, 1}
         });
-        gameLogic.setLogEnabled(false);
         gameLogic.setBluePlayer(player1);
         assertFalse(gameLogic.isGameOver());
 
@@ -205,7 +200,6 @@ public class GameLogicTest {
                 {0, 2, 2, 2, 0},
                 {1, 0, 2, 2, 2}
         });
-        gameLogic.setLogEnabled(false);
         gameLogic.setBluePlayer(player1);
         assertTrue(gameLogic.isGameOver());
 
@@ -216,7 +210,6 @@ public class GameLogicTest {
                 {2, 0, 2, 0, 0},
                 {0, 2, 0, 2, 2}
         });
-        gameLogic.setLogEnabled(false);
         gameLogic.setBluePlayer(player1);
         assertTrue(gameLogic.isGameOver());
 
@@ -227,7 +220,6 @@ public class GameLogicTest {
                 {0, 2, 2, 0, 0},
                 {1, 0, 0, 2, 0}
         });
-        gameLogic.setLogEnabled(false);
         gameLogic.setBluePlayer(player1);
         assertTrue(gameLogic.isGameOver());
 
@@ -238,7 +230,6 @@ public class GameLogicTest {
                 {2, 0, 2, 0, 0},
                 {1, 2, 0, 2, 2}
         });
-        gameLogic.setLogEnabled(false);
         gameLogic.setBluePlayer(player1);
         assertFalse(gameLogic.isGameOver());
     }

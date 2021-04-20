@@ -227,6 +227,7 @@ public class GameLogic {
     }
 
     public boolean hasBlueWon() {
+        logEnabled = false;
         int count = 0;
         ArrayList<Integer> xCors = new ArrayList<>();
         ArrayList<Integer> yCors = new ArrayList<>();
@@ -253,6 +254,7 @@ public class GameLogic {
         }
 
         else {
+            logEnabled = true;
             return false;
         }
     }
