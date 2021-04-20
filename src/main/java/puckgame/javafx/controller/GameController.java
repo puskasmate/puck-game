@@ -7,12 +7,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import lombok.extern.slf4j.Slf4j;
 import puckgame.model.GameLogic;
 import puckgame.model.Player;
 import puckgame.model.Puck;
 
 import java.util.ArrayList;
 
+@Slf4j
 public class GameController {
 
     @FXML
@@ -144,8 +146,6 @@ public class GameController {
                     removeRedPuck(pucks.get(i), dirX, dirY);
                 }
             }
-            //prevX = 0;
-            //prevY = 0;
             puck.setX(dirX);
             puck.setY(dirY);
             puck.draw();

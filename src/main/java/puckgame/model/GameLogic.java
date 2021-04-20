@@ -1,7 +1,10 @@
 package puckgame.model;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 
+@Slf4j
 public class GameLogic {
 
     private static final int RIGHT = 0;
@@ -28,73 +31,95 @@ public class GameLogic {
         boolean isValid = false;
 
         if (player.getPlayerId() == 1 && grid[row][col] == 2 || !(player.getPlayerId() == 1) && grid[row][col] == 1) {
+            log.info("You can not move, because it is {}'s turn!", player.getName());
             isValid = false;
         }
 
         else {
-            if (player.getPlayerId() == 1) {
-                switch (direction) {
-                    case RIGHT: {
-                        if (col != grid.length-1 && grid[row][col+1] == 2) {
-                            isValid = true;
-                        }
-                        break;
-                    }
-                    case LEFT: {
-                        if (col != 0 && grid[row][col-1] == 2) {
-                            isValid = true;
-                        }
-                        break;
-                    }
-                    case UP: {
-                        if (row != 0 && grid[row-1][col] == 2) {
-                            isValid = true;
-                        }
-                        break;
-                    }
-                    case DOWN: {
-                        if (row != grid.length-1 && grid[row+1][col] == 2) {
-                            isValid = true;
-                        }
-                        break;
-                    }
-                    default:
-                        isValid = false;
-                }
-            }
-            else {
-                if (player.getPlayerId() == 2) {
+            try {
+                if (player.getPlayerId() == 1) {
                     switch (direction) {
                         case RIGHT: {
-                            if (col != grid.length-1 && grid[row][col+1] == 0) {
+                            if (grid[row][col + 1] == 2) {
                                 isValid = true;
+                            } else {
+                                log.info("You can not move there, because there is no red puck on field ({}, {})!", (col + 1) + 1, row + 1);
                             }
                             break;
                         }
                         case LEFT: {
-                            if (col != 0 && grid[row][col-1] == 0) {
+                            if (grid[row][col - 1] == 2) {
                                 isValid = true;
+                            } else {
+                                log.info("You can not move there, because there is no red puck on field ({}, {})!", (col - 1) + 1, row + 1);
                             }
                             break;
                         }
                         case UP: {
-                            if (row != 0 && grid[row-1][col] == 0) {
+                            if (grid[row - 1][col] == 2) {
                                 isValid = true;
+                            } else {
+                                log.info("You can not move there, because there is no red puck on field ({}, {})!", col + 1, (row - 1) + 1);
                             }
                             break;
                         }
                         case DOWN: {
-                            if (row != grid.length-1 && grid[row+1][col] == 0) {
+                            if (grid[row + 1][col] == 2) {
                                 isValid = true;
+                            } else {
+                                log.info("You can not move there, because there is no red puck on field ({}, {})!", col + 1, (row + 1) + 1);
                             }
                             break;
                         }
                         default:
+                            log.info("Invalid direction, you can not move to that space!");
                             isValid = false;
                     }
+                } else {
+                    if (player.getPlayerId() == 2) {
+                        switch (direction) {
+                            case RIGHT: {
+                                if (grid[row][col + 1] == 0) {
+                                    isValid = true;
+                                } else {
+                                    log.info("You can not move there, because the ({}, {}) field is not empty!", (col + 1) + 1, row + 1);
+                                }
+                                break;
+                            }
+                            case LEFT: {
+                                if (grid[row][col - 1] == 0) {
+                                    isValid = true;
+                                } else {
+                                    log.info("You can not move there, because the ({}, {}) field is not empty!", (col - 1) + 1, row + 1);
+                                }
+                                break;
+                            }
+                            case UP: {
+                                if (grid[row - 1][col] == 0) {
+                                    isValid = true;
+                                } else {
+                                    log.info("You can not move there, because the ({}, {}) field is not empty!", col + 1, (row - 1) + 1);
+                                }
+                                break;
+                            }
+                            case DOWN: {
+                                if (grid[row + 1][col] == 0) {
+                                    isValid = true;
+                                } else {
+                                    log.info("You can not move there, because the ({}, {}) field is not empty!", col + 1, (row + 1) + 1);
+                                }
+                                break;
+                            }
+                            default:
+                                log.info("Invalid direction, you can not move to that space!");
+                                isValid = false;
+                        }
+                    }
                 }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                log.warn("You can not move out of the field!");
+                isValid = false;
             }
-
         }
         return isValid;
     }
@@ -106,28 +131,29 @@ public class GameLogic {
                 case RIGHT: {
                     grid[row][col+1] = grid[row][col];
                     grid[row][col] = 0;
+                    log.info("{} moved from ({}, {}) to ({}, {}).", player.getName(), col+1, row+1, (col+1)+1, row+1);
                     break;
                 }
                 case LEFT: {
                     grid[row][col-1] = grid[row][col];
                     grid[row][col] = 0;
+                    log.info("{} moved from ({}, {}) to ({}, {}).", player.getName(), col+1, row+1, (col-1)+1, row+1);
                     break;
                 }
                 case UP: {
                     grid[row-1][col] = grid[row][col];
                     grid[row][col] = 0;
+                    log.info("{} moved from ({}, {}) to ({}, {}).", player.getName(), col+1, row+1, col+1, (row-1)+1);
                     break;
                 }
                 case DOWN: {
                     grid[row+1][col] = grid[row][col];
                     grid[row][col] = 0;
+                    log.info("{} moved from ({}, {}) to ({}, {}).", player.getName(), col+1, row+1, col+1, (row+1)+1);
                     break;
                 }
 
             }
-        }
-        else {
-            System.out.println("You can't move there!");
         }
 
     }
