@@ -73,8 +73,15 @@ public class GameState {
             {1, 2, 2, 2, 2}
     };
 
+    /**
+     * Null arg constructor.
+     */
     public GameState() {}
 
+    /**
+     * Constructor which takes a 2D array and set this array to the grid.
+     * @param grid 2D array that represents the state of the game and the board.
+     */
     public GameState(int [][] grid) {
         this.grid = grid;
     }
@@ -85,7 +92,7 @@ public class GameState {
      * @param row The row where the the current puck stands on the table.
      * @param col The column where the current puck stands on the table.
      * @param direction The direction where the player wants to move to.
-     * @return {@code true} iff the player can move to the wanted direction, {@code false} otherwise.
+     * @return {@code true} if the player can move to the wanted direction, {@code false} otherwise.
      */
     public boolean isValidMove(Player currentPlayer, int row, int col, int direction) {
 
