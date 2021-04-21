@@ -8,7 +8,15 @@
     <artifactId>puck-game</artifactId>
     <version>1.0</version>
     <description>A simple puck game played by 2 players.</description>
-
+    <developers>
+        <developer>
+            <id>puskasmate</id>
+            <name>Máté Puskás</name>
+            <email>puskasmate2000@gmail.com</email>
+            <organization>Faculty of Informatics, University of Debrecen</organization>
+            <organizationUrl>https://inf.unideb.hu/</organizationUrl>
+        </developer>
+    </developers>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
