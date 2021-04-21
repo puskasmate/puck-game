@@ -8,6 +8,10 @@
     <artifactId>puck-game</artifactId>
     <version>1.0</version>
     <description>A simple puck game played by 2 players.</description>
+    <scm>
+        <connection>scm:git:https://github.com/puskasmate/puck-game.git</connection>
+        <developerConnection>scm:git:https://github.com/puskasmate/puck-game.git</developerConnection>
+    </scm>
     <developers>
         <developer>
             <id>puskasmate</id>
