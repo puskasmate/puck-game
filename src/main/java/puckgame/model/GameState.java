@@ -8,27 +8,61 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 
+/**
+ * Class representing the state of the game and the board.
+ */
 @Data
 @Slf4j
-public class GameLogic {
+public class GameState {
 
+    /**
+     * Integer value that represents the direction of Right.
+     */
     private static final int RIGHT = 0;
+
+    /**
+     * Integer value that represents the direction of Left.
+     */
     private static final int LEFT = 1;
+
+    /**
+     * Integer value that represents the direction of Up.
+     */
     private static final int UP = 2;
+
+    /**
+     * Integer value that represents the direction of Down.
+     */
     private static final int DOWN = 3;
 
+    /**
+     * Boolean value that stores if the logging enabled or not.
+     */
     @Setter(AccessLevel.PUBLIC)
     private boolean logEnabled = true;
 
+    /**
+     * Player object that stores the player with the blue pucks.
+     */
     @Setter(AccessLevel.PUBLIC)
     private Player bluePlayer;
 
+    /**
+     * Player object that stores the player with the red pucks.
+     */
     @Setter(AccessLevel.PUBLIC)
     private Player redPlayer;
 
+    /**
+     * Player object that stores the winner of the game.
+     */
     @Getter(AccessLevel.PUBLIC)
     private Player winner;
 
+    /**
+     * 2D array representing the state of the game.
+     * The blue pucks are represented as 1's, the red pucks are represented as 2's, and the empty spaces as 0's.
+     */
     @Getter(AccessLevel.PUBLIC)
     @Setter(AccessLevel.PUBLIC)
     private int [][] grid = {
@@ -39,26 +73,34 @@ public class GameLogic {
             {1, 2, 2, 2, 2}
     };
 
-    public GameLogic() {}
+    public GameState() {}
 
-    public GameLogic(int [][] grid) {
+    public GameState(int [][] grid) {
         this.grid = grid;
     }
 
-    public boolean isValidMove(Player player, int row, int col, int direction) {
+    /**
+     * A method that checks if the current move is enabled or not.
+     * @param currentPlayer The player who has to move at the current state.
+     * @param row The row where the the current puck stands on the table.
+     * @param col The column where the current puck stands on the table.
+     * @param direction The direction where the player wants to move to.
+     * @return {@code true} iff the player can move to the wanted direction, {@code false} otherwise.
+     */
+    public boolean isValidMove(Player currentPlayer, int row, int col, int direction) {
 
         boolean isValid = false;
 
-        if (player.getPlayerId() == 1 && grid[row][col] == 2 || !(player.getPlayerId() == 1) && grid[row][col] == 1) {
+        if (currentPlayer.getPlayerId() == 1 && grid[row][col] == 2 || !(currentPlayer.getPlayerId() == 1) && grid[row][col] == 1) {
             if (logEnabled) {
-                log.info("You can not move, because it is {}'s turn!", player.getName());
+                log.info("You can not move, because it is {}'s turn!", currentPlayer.getName());
             }
             isValid = false;
         }
 
         else {
             try {
-                if (player.getPlayerId() == 1) {
+                if (currentPlayer.getPlayerId() == 1) {
                     switch (direction) {
                         case RIGHT: {
                             if (grid[row][col + 1] == 2) {
@@ -107,7 +149,7 @@ public class GameLogic {
                             isValid = false;
                     }
                 } else {
-                    if (player.getPlayerId() == 2) {
+                    if (currentPlayer.getPlayerId() == 2) {
                         switch (direction) {
                             case RIGHT: {
                                 if (grid[row][col + 1] == 0) {
@@ -167,32 +209,39 @@ public class GameLogic {
         return isValid;
     }
 
-    public void move(Player player, int row, int col, int direction) {
+    /**
+     * Method to change the array if the move wanted move is valid.
+     * @param currentPlayer The player who has to move at the current state.
+     * @param row The row where the the current puck stands on the table.
+     * @param col The column where the current puck stands on the table.
+     * @param direction The direction where the player wants to move to.
+     */
+    public void move(Player currentPlayer, int row, int col, int direction) {
 
-        if (isValidMove(player, row, col, direction)) {
+        if (isValidMove(currentPlayer, row, col, direction)) {
             switch (direction) {
                 case RIGHT: {
                     grid[row][col+1] = grid[row][col];
                     grid[row][col] = 0;
-                    log.info("{} moved from ({}, {}) to ({}, {}).", player.getName(), col+1, row+1, (col+1)+1, row+1);
+                    log.info("{} moved from ({}, {}) to ({}, {}).", currentPlayer.getName(), col+1, row+1, (col+1)+1, row+1);
                     break;
                 }
                 case LEFT: {
                     grid[row][col-1] = grid[row][col];
                     grid[row][col] = 0;
-                    log.info("{} moved from ({}, {}) to ({}, {}).", player.getName(), col+1, row+1, (col-1)+1, row+1);
+                    log.info("{} moved from ({}, {}) to ({}, {}).", currentPlayer.getName(), col+1, row+1, (col-1)+1, row+1);
                     break;
                 }
                 case UP: {
                     grid[row-1][col] = grid[row][col];
                     grid[row][col] = 0;
-                    log.info("{} moved from ({}, {}) to ({}, {}).", player.getName(), col+1, row+1, col+1, (row-1)+1);
+                    log.info("{} moved from ({}, {}) to ({}, {}).", currentPlayer.getName(), col+1, row+1, col+1, (row-1)+1);
                     break;
                 }
                 case DOWN: {
                     grid[row+1][col] = grid[row][col];
                     grid[row][col] = 0;
-                    log.info("{} moved from ({}, {}) to ({}, {}).", player.getName(), col+1, row+1, col+1, (row+1)+1);
+                    log.info("{} moved from ({}, {}) to ({}, {}).", currentPlayer.getName(), col+1, row+1, col+1, (row+1)+1);
                     break;
                 }
 
@@ -201,6 +250,10 @@ public class GameLogic {
 
     }
 
+    /**
+     * A method that checks if the player with the red pucks has won the game.
+     * @return {@code true} if the player with the red pucks has won the game, {@code false} otherwise.
+     */
     public boolean hasRedWon() {
         boolean duplicates = false;
 
@@ -222,10 +275,16 @@ public class GameLogic {
                 }
             }
         }
-
+        if (duplicates) {
+            winner = redPlayer;
+        }
         return duplicates;
     }
 
+    /**
+     * A method that checks if the player with the blue pucks has won the game.
+     * @return {@code true} if the player with the blue pucks has won the game, {@code false} otherwise.
+     */
     public boolean hasBlueWon() {
         logEnabled = false;
         int count = 0;
@@ -250,6 +309,7 @@ public class GameLogic {
         }
 
         if (count == 3) {
+            winner = bluePlayer;
             return true;
         }
 
@@ -259,6 +319,10 @@ public class GameLogic {
         }
     }
 
+    /**
+     * A method that checks if the game is over.
+     * @return {@code true} if the game is over, {@code false} otherwise.
+     */
     public boolean isGameOver() {
         if (hasBlueWon() || hasRedWon()) {
             return true;

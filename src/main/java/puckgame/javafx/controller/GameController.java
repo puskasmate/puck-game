@@ -12,7 +12,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import lombok.extern.slf4j.Slf4j;
-import puckgame.model.GameLogic;
+import puckgame.model.GameState;
 import puckgame.model.Player;
 import puckgame.model.Puck;
 
@@ -49,7 +49,7 @@ public class GameController {
     private int spots = 5;
     private int squareSize = size / spots;
     private ArrayList<Puck> pucks;
-    private GameLogic gameLogic;
+    private GameState gameState;
     private Player player1;
     private Player player2;
     private Player currentPlayer;
@@ -74,14 +74,14 @@ public class GameController {
         gameOver = false;
         prevX = 0;
         prevY = 0;
-        gameLogic = new GameLogic();
+        gameState = new GameState();
         player1 = new Player(p1nameText.getText(), 1, 0);
         player2 = new Player(p2nameText.getText(), 2, 0);
         p1steps.setText("Steps: " + player1.getStepCount());
         p2steps.setText("Steps: " + player2.getStepCount());
         winnerLabel.setText("");
-        gameLogic.setBluePlayer(player1);
-        gameLogic.setRedPlayer(player2);
+        gameState.setBluePlayer(player1);
+        gameState.setRedPlayer(player2);
         currentPlayer = player1;
         displayGrid();
     }
@@ -183,10 +183,10 @@ public class GameController {
                     }
                 }
             }
-            if (gameLogic.isValidMove(currentPlayer, prevY, prevX, dir)) {
+            if (gameState.isValidMove(currentPlayer, prevY, prevX, dir)) {
                 int dirX = (int) (squareSize / 2) + squareSize * gridX;
                 int dirY = (int) (squareSize / 2) + squareSize * gridY;
-                gameLogic.move(currentPlayer, prevY, prevX, dir);
+                gameState.move(currentPlayer, prevY, prevX, dir);
                 if (puck.getPlayerId() == 1) {
                     for (int i = 0; i < pucks.size(); i++) {
                         removeRedPuck(pucks.get(i), dirX, dirY);
@@ -197,14 +197,9 @@ public class GameController {
                 puck.draw();
                 increasePlayerSteps(currentPlayer);
                 switchCurrentPlayer();
-                if (gameLogic.isGameOver()) {
-                    if (gameLogic.hasBlueWon()) {
-                        gameLogic.setWinner(player1);
-                    } else {
-                        gameLogic.setWinner(player2);
-                    }
-                    log.info("Congratulations {}, you have won the game in {} steps!", gameLogic.getWinner().getName(), gameLogic.getWinner().getStepCount());
-                    winnerLabel.setText(gameLogic.getWinner().getName() +" won the game!");
+                if (gameState.isGameOver()) {
+                    log.info("Congratulations {}, you have won the game in {} steps!", gameState.getWinner().getName(), gameState.getWinner().getStepCount());
+                    winnerLabel.setText(gameState.getWinner().getName() +" won the game!");
                     gameOver = true;
                 }
             } else {
