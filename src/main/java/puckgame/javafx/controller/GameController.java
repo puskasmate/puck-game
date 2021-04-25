@@ -14,7 +14,7 @@ import javafx.scene.text.Text;
 import lombok.extern.slf4j.Slf4j;
 import puckgame.state.GameState;
 import puckgame.state.Player;
-import puckgame.state.Puck;
+import puckgame.javafx.Puck;
 
 import java.util.ArrayList;
 
