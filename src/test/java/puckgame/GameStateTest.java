@@ -3,8 +3,8 @@ package puckgame;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import puckgame.model.GameState;
-import puckgame.model.Player;
+import puckgame.state.GameState;
+import puckgame.state.Player;
 
 import static org.junit.jupiter.api.Assertions.*;
 

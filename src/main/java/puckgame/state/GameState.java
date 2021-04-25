@@ -1,4 +1,4 @@
-package puckgame.model;
+package puckgame.state;
 
 import lombok.AccessLevel;
 import lombok.Data;

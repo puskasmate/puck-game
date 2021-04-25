@@ -1,4 +1,4 @@
-package puckgame.model;
+package puckgame.state;
 
 import javafx.scene.shape.Circle;
 import lombok.AllArgsConstructor;

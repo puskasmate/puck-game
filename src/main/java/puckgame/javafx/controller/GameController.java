@@ -12,9 +12,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import lombok.extern.slf4j.Slf4j;
-import puckgame.model.GameState;
-import puckgame.model.Player;
-import puckgame.model.Puck;
+import puckgame.state.GameState;
+import puckgame.state.Player;
+import puckgame.state.Puck;
 
 import java.util.ArrayList;
 
