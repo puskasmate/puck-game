@@ -17,7 +17,7 @@ The player with the blue pucks wins the game if he/she is not able to move. The 
 
 ### Controls 
 
-The current player have to click and drag the chosen puck to the chosen direction.
+The current player has to click and drag the chosen puck to the chosen direction.
 
 ### Run the project
 
