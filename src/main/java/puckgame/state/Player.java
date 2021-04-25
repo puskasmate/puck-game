@@ -24,9 +24,18 @@ public class Player {
      */
     private int stepCount;
 
+    /**
+     * No args constructor.
+     */
     public Player() {
     }
 
+    /**
+     * All args constructor.
+     * @param name the name of the player.
+     * @param playerId the id of the player. Blue player's id has to be 1, red player's has to be 2.
+     * @param stepCount the number of the player's steps.
+     */
     public Player(String name, int playerId, int stepCount) {
         this.name = name;
         this.playerId = playerId;
