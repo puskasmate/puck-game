@@ -1,4 +1,4 @@
-package puckgame.javafx;
+package puckgame.javafx.main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
