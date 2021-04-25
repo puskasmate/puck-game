@@ -1,15 +1,11 @@
 package puckgame.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Class that stores information about a player.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Player {
 
     /**
@@ -27,5 +23,14 @@ public class Player {
      * Integer value that stores how many steps has the player done.
      */
     private int stepCount;
+
+    public Player() {
+    }
+
+    public Player(String name, int playerId, int stepCount) {
+        this.name = name;
+        this.playerId = playerId;
+        this.stepCount = stepCount;
+    }
 
 }
