@@ -7,6 +7,7 @@
     <groupId>inf.unideb.hu</groupId>
     <artifactId>puck-game</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
     <description>A simple puck game played by 2 players.</description>
     <scm>
         <connection>scm:git:https://github.com/puskasmate/puck-game.git</connection>
@@ -81,6 +82,21 @@
     </dependencies>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>${exec.mainClass}</mainClass>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
