@@ -1,6 +1,7 @@
 package puckgame;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import puckgame.model.GameState;
 import puckgame.model.Player;
@@ -14,13 +15,15 @@ public class GameStateTest {
     Player player1;
     Player player2;
 
-    @Test
-    void testIsValidMoveAtStartingState() {
+    @BeforeEach
+    void setUp() {
         gameState = new GameState();
-        gameState.setLogEnabled(false);
         player1 = new Player("p1", 1, 0);
         player2 = new Player("p2", 2, 0);
+    }
 
+    @Test
+    void testIsValidMoveAtStartingState() {
         //middle blue
         assertTrue(gameState.isValidMove(player1, 2, 2, 0));
         assertTrue(gameState.isValidMove(player1, 2, 2, 1));
@@ -56,8 +59,6 @@ public class GameStateTest {
 
     @Test
     void testIsValidMove() {
-        player1 = new Player("p1", 1 , 0);
-        player2 = new Player("p2", 2, 0);
         gameState = new GameState(new int[][]{
                 {2, 2, 2, 2, 1},
                 {2, 0, 0, 1, 0},
@@ -65,7 +66,6 @@ public class GameStateTest {
                 {2, 0, 2, 0, 0},
                 {1, 2, 0, 2, 2}
         });
-        gameState.setLogEnabled(false);
 
         assertTrue(gameState.isValidMove(player1, 0, 4, 1));
         assertFalse(gameState.isValidMove(player1, 0, 4, 3));
@@ -80,7 +80,6 @@ public class GameStateTest {
 
     @Test
     void testHasBlueWon() {
-        player1 = new Player("p1", 1, 0);
         gameState = new GameState(new int[][]{
                 {2, 2, 2, 0, 1},
                 {2, 0, 0, 2, 0},
@@ -182,7 +181,6 @@ public class GameStateTest {
 
     @Test
     void testIsGameOver() {
-        player1 = new Player("p1", 1, 0);
         gameState = new GameState(new int[][]{
                 {2, 2, 2, 2, 2},
                 {2, 0, 0, 1, 0},
@@ -232,6 +230,51 @@ public class GameStateTest {
         });
         gameState.setBluePlayer(player1);
         assertFalse(gameState.isGameOver());
+    }
+
+    @Test
+    void testMove() {
+        gameState.move(player1, 2, 2, 1);
+        assertArrayEquals(new int[][] {{2, 2, 2, 2, 1},
+                {2, 2, 2, 2, 2},
+                {2, 1, 0, 2, 2},
+                {2, 2, 2, 2, 2},
+                {1, 2, 2, 2, 2}}, gameState.getGrid());
+        gameState.move(player2, 2, 3, 1);
+        assertArrayEquals(new int[][] {{2, 2, 2, 2, 1},
+                {2, 2, 2, 2, 2},
+                {2, 1, 2, 0, 2},
+                {2, 2, 2, 2, 2},
+                {1, 2, 2, 2, 2}}, gameState.getGrid());
+        gameState.setGrid(new int[][] {{2, 2, 0, 2, 1},
+                {2, 0, 0, 2, 2},
+                {2, 0, 0, 0, 2},
+                {2, 2, 1, 2, 2},
+                {1, 2, 2, 0, 0}});
+        gameState.move(player1, 3, 2, 2);
+        assertArrayEquals(new int[][] {{2, 2, 0, 2, 1},
+                {2, 0, 0, 2, 2},
+                {2, 0, 0, 0, 2},
+                {2, 2, 1, 2, 2},
+                {1, 2, 2, 0, 0}}, gameState.getGrid());
+        gameState.move(player2, 0, 4, 1);
+        assertArrayEquals(new int[][] {{2, 2, 0, 2, 1},
+                {2, 0, 0, 2, 2},
+                {2, 0, 0, 0, 2},
+                {2, 2, 1, 2, 2},
+                {1, 2, 2, 0, 0}}, gameState.getGrid());
+        gameState.move(player1, 3, 2, 0);
+        assertArrayEquals(new int[][] {{2, 2, 0, 2, 1},
+                {2, 0, 0, 2, 2},
+                {2, 0, 0, 0, 2},
+                {2, 2, 0, 1, 2},
+                {1, 2, 2, 0, 0}}, gameState.getGrid());
+        gameState.move(player2, 1, 3, 3);
+        assertArrayEquals(new int[][] {{2, 2, 0, 2, 1},
+                {2, 0, 0, 0, 2},
+                {2, 0, 0, 2, 2},
+                {2, 2, 0, 1, 2},
+                {1, 2, 2, 0, 0}}, gameState.getGrid());
     }
 
 }

@@ -36,12 +36,6 @@ public class GameState {
     private static final int DOWN = 3;
 
     /**
-     * Boolean value that stores if the logging enabled or not.
-     */
-    @Setter(AccessLevel.PUBLIC)
-    private boolean logEnabled = true;
-
-    /**
      * Player object that stores the player with the blue pucks.
      */
     @Setter(AccessLevel.PUBLIC)
@@ -99,9 +93,7 @@ public class GameState {
         boolean isValid = false;
 
         if (currentPlayer.getPlayerId() == 1 && grid[row][col] == 2 || !(currentPlayer.getPlayerId() == 1) && grid[row][col] == 1) {
-            if (logEnabled) {
-                log.info("You can not move, because it is {}'s turn!", currentPlayer.getName());
-            }
+            log.info("You can not move, because it is {}'s turn!", currentPlayer.getName());
             isValid = false;
         }
 
@@ -113,9 +105,7 @@ public class GameState {
                             if (grid[row][col + 1] == 2) {
                                 isValid = true;
                             } else {
-                                if (logEnabled) {
-                                    log.info("You can not move there, because there is no red puck on field ({}, {})!", (col + 1) + 1, row + 1);
-                                }
+                                log.info("You can not move there, because there is no red puck on field ({}, {})!", (col + 1) + 1, row + 1);
                             }
                             break;
                         }
@@ -123,9 +113,7 @@ public class GameState {
                             if (grid[row][col - 1] == 2) {
                                 isValid = true;
                             } else {
-                                if (logEnabled) {
-                                    log.info("You can not move there, because there is no red puck on field ({}, {})!", (col - 1) + 1, row + 1);
-                                }
+                                log.info("You can not move there, because there is no red puck on field ({}, {})!", (col - 1) + 1, row + 1);
                             }
                             break;
                         }
@@ -133,9 +121,7 @@ public class GameState {
                             if (grid[row - 1][col] == 2) {
                                 isValid = true;
                             } else {
-                                if (logEnabled) {
-                                    log.info("You can not move there, because there is no red puck on field ({}, {})!", col + 1, (row - 1) + 1);
-                                }
+                                log.info("You can not move there, because there is no red puck on field ({}, {})!", col + 1, (row - 1) + 1);
                             }
                             break;
                         }
@@ -143,16 +129,12 @@ public class GameState {
                             if (grid[row + 1][col] == 2) {
                                 isValid = true;
                             } else {
-                                if (logEnabled) {
-                                    log.info("You can not move there, because there is no red puck on field ({}, {})!", col + 1, (row + 1) + 1);
-                                }
+                                log.info("You can not move there, because there is no red puck on field ({}, {})!", col + 1, (row + 1) + 1);
                             }
                             break;
                         }
                         default:
-                            if (logEnabled) {
-                                log.info("Invalid direction, you can not move to that space!");
-                            }
+                            log.info("Invalid direction, you can not move to that space!");
                             isValid = false;
                     }
                 } else {
@@ -162,9 +144,7 @@ public class GameState {
                                 if (grid[row][col + 1] == 0) {
                                     isValid = true;
                                 } else {
-                                    if (logEnabled) {
-                                        log.info("You can not move there, because the ({}, {}) field is not empty!", (col + 1) + 1, row + 1);
-                                    }
+                                    log.info("You can not move there, because the ({}, {}) field is not empty!", (col + 1) + 1, row + 1);
                                 }
                                 break;
                             }
@@ -172,9 +152,7 @@ public class GameState {
                                 if (grid[row][col - 1] == 0) {
                                     isValid = true;
                                 } else {
-                                    if (logEnabled) {
-                                        log.info("You can not move there, because the ({}, {}) field is not empty!", (col - 1) + 1, row + 1);
-                                    }
+                                    log.info("You can not move there, because the ({}, {}) field is not empty!", (col - 1) + 1, row + 1);
                                 }
                                 break;
                             }
@@ -182,9 +160,7 @@ public class GameState {
                                 if (grid[row - 1][col] == 0) {
                                     isValid = true;
                                 } else {
-                                    if (logEnabled) {
-                                        log.info("You can not move there, because the ({}, {}) field is not empty!", col + 1, (row - 1) + 1);
-                                    }
+                                    log.info("You can not move there, because the ({}, {}) field is not empty!", col + 1, (row - 1) + 1);
                                 }
                                 break;
                             }
@@ -192,24 +168,18 @@ public class GameState {
                                 if (grid[row + 1][col] == 0) {
                                     isValid = true;
                                 } else {
-                                    if (logEnabled) {
-                                        log.info("You can not move there, because the ({}, {}) field is not empty!", col + 1, (row + 1) + 1);
-                                    }
+                                    log.info("You can not move there, because the ({}, {}) field is not empty!", col + 1, (row + 1) + 1);
                                 }
                                 break;
                             }
                             default:
-                                if (logEnabled) {
-                                    log.info("Invalid direction, you can not move to that space!");
-                                }
+                                log.info("Invalid direction, you can not move to that space!");
                                 isValid = false;
                         }
                     }
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
-                if (logEnabled) {
-                    log.warn("You can not move out of the field!");
-                }
+                log.warn("You can not move out of the field!");
                 isValid = false;
             }
         }
@@ -293,7 +263,6 @@ public class GameState {
      * @return {@code true} if the player with the blue pucks has won the game, {@code false} otherwise.
      */
     public boolean hasBlueWon() {
-        logEnabled = false;
         int count = 0;
         ArrayList<Integer> xCors = new ArrayList<>();
         ArrayList<Integer> yCors = new ArrayList<>();
@@ -321,7 +290,6 @@ public class GameState {
         }
 
         else {
-            logEnabled = true;
             return false;
         }
     }
