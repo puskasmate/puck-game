@@ -127,8 +127,8 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>[11,)</version>
-                                    <message>JDK 11 or later is required!</message>
+                                    <version>[11, 11.0.10]</version>
+                                    <message>JDK 11 is required!</message>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
