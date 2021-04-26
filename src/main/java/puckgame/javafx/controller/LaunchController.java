@@ -61,4 +61,14 @@ public class LaunchController {
         Platform.exit();
     }
 
+    public void handleHighScoreButton(ActionEvent actionEvent) throws IOException {
+        log.debug("{} button has been pressed.", ((Button)actionEvent.getSource()).getText());
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/highscores.fxml"));
+        Parent root = fxmlLoader.load();
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+        log.info("Loading highscores..");
+    }
+
 }

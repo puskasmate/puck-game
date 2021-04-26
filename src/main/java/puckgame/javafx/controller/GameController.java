@@ -3,6 +3,10 @@ package puckgame.javafx.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -11,11 +15,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import puckgame.state.GameState;
 import puckgame.state.Player;
 import puckgame.javafx.Puck;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Slf4j
@@ -241,6 +247,16 @@ public class GameController {
         log.debug("{} button is pressed", ((Button)actionEvent.getSource()).getText());
         log.info("Resetting game...");
         initGame();
+    }
+
+    public void handleHighScoreButton(ActionEvent actionEvent) throws IOException {
+        log.debug("{} button has been pressed.", ((Button)actionEvent.getSource()).getText());
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/highscores.fxml"));
+        Parent root = fxmlLoader.load();
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+        log.info("Loading highscores..");
     }
 
 }

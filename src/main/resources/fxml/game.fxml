@@ -20,5 +20,6 @@
             <Font name="DejaVu Sans Bold" size="28.0" />
          </font>
       </Label>
+      <Button fx:id="highScoreButton" layoutX="429.0" layoutY="562.0" mnemonicParsing="false" onAction="#handleHighScoreButton" text="Highscores" />
    </children>
 </Pane>
