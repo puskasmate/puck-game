@@ -10,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -35,12 +37,16 @@ public class LaunchController {
     private Button exitButton;
 
     @FXML
+    private ImageView image;
+
+    @FXML
     public void initialize() {
         startButton.disableProperty().bind(
                 Bindings.isEmpty(p1name.textProperty())
                 .or(Bindings.isEmpty(p2name.textProperty()))
                 .or(Bindings.equal(p1name.textProperty(), p2name.textProperty()))
         );
+        image.setImage(new Image(getClass().getResource("/images/pucks.png").toExternalForm()));
     }
 
     @FXML
