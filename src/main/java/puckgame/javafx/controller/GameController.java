@@ -60,7 +60,7 @@ public class GameController {
     @FXML
     private Label stopWatchLabel;
 
-    private int size = 400;
+    private int size = 600;
     private int spots = 5;
     private int squareSize = size / spots;
     private ArrayList<Puck> pucks;
