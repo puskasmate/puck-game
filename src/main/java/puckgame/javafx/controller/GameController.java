@@ -1,5 +1,8 @@
 package puckgame.javafx.controller;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,11 +20,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import puckgame.state.GameState;
 import puckgame.state.Player;
 import puckgame.javafx.Puck;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 @Slf4j
@@ -51,6 +57,9 @@ public class GameController {
     @FXML
     private Label winnerLabel;
 
+    @FXML
+    private Label stopWatchLabel;
+
     private int size = 400;
     private int spots = 5;
     private int squareSize = size / spots;
@@ -64,6 +73,8 @@ public class GameController {
     private boolean gameOver;
     private String p1name;
     private String p2name;
+    private Instant startTime;
+    private Timeline stopWatchTimeline;
 
     @FXML
     public void initialize() {
@@ -76,7 +87,20 @@ public class GameController {
         initGame();
     }
 
+    private void createStopWatch() {
+        stopWatchTimeline = new Timeline(new KeyFrame(javafx.util.Duration.ZERO, e -> {
+            long millisElapsed = startTime.until(Instant.now(), ChronoUnit.MILLIS);
+            stopWatchLabel.setText(DurationFormatUtils.formatDuration(millisElapsed, "HH:mm:ss"));
+        }), new KeyFrame(javafx.util.Duration.seconds(1)));
+        stopWatchTimeline.setCycleCount(Animation.INDEFINITE);
+        stopWatchTimeline.play();
+    }
+
     public void initGame() {
+        p1nameText.setFill(Color.GREEN);
+        p2nameText.setFill(Color.BLACK);
+        startTime = Instant.now();
+        createStopWatch();
         gameOver = false;
         prevX = 0;
         prevY = 0;
@@ -140,9 +164,13 @@ public class GameController {
     public void switchCurrentPlayer() {
         if (currentPlayer.equals(player1)) {
             currentPlayer = player2;
+            this.p2nameText.setFill(Color.GREEN);
+            this.p1nameText.setFill(Color.BLACK);
         }
         else {
             currentPlayer = player1;
+            this.p1nameText.setFill(Color.GREEN);
+            this.p2nameText.setFill(Color.BLACK);
         }
     }
 
@@ -207,6 +235,7 @@ public class GameController {
                     log.info("Congratulations {}, you have won the game in {} steps!", gameState.getWinner().getName(), gameState.getWinner().getStepCount());
                     winnerLabel.setText(gameState.getWinner().getName() +" won the game!");
                     gameOver = true;
+                    stopWatchTimeline.stop();
                 }
             } else {
                 puck.setX(squareSize / 2 + squareSize * prevX);
