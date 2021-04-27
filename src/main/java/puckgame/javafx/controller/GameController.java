@@ -242,6 +242,7 @@ public class GameController {
                     winnerLabel.setText(gameState.getWinner().getName() +" won the game!");
                     gameOver = true;
                     stopWatchTimeline.stop();
+                    log.debug("Saving result to database..");
                     gameResultDao = new GameResultDao();
                     gameResultDao.persist(createGameResult());
                 }
