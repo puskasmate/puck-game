@@ -40,6 +40,12 @@ public class GameResult {
     private String color;
 
     /**
+     * The steps of the winner player.
+     */
+    @Column(nullable = false)
+    private int steps;
+
+    /**
      * The duration of the game.
      */
     @Column(nullable = false)
