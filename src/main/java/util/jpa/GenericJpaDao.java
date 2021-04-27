@@ -1,6 +1,8 @@
 package util.jpa;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +16,8 @@ import java.util.Optional;
 public abstract class GenericJpaDao<T> {
 
     protected Class<T> entityClass;
-    protected EntityManager entityManager;
+    EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("puckgame");//
+    protected EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
     /**
      * Constructs a {@code GenericJpaDao} object.
@@ -53,6 +56,7 @@ public abstract class GenericJpaDao<T> {
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
         entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     /**
@@ -87,6 +91,7 @@ public abstract class GenericJpaDao<T> {
         entityManager.getTransaction().begin();
         entityManager.remove(entity);
         entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     /**
@@ -98,6 +103,7 @@ public abstract class GenericJpaDao<T> {
         entityManager.getTransaction().begin();
         entityManager.merge(entity);
         entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
 }
