@@ -21,12 +21,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import puckgame.results.GameResult;
+import puckgame.results.GameResultDao;
 import puckgame.state.GameState;
 import puckgame.state.Player;
 import puckgame.javafx.Puck;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
@@ -59,6 +63,8 @@ public class GameController {
 
     @FXML
     private Label stopWatchLabel;
+
+    private GameResultDao gameResultDao;
 
     private int size = 600;
     private int spots = 5;
@@ -236,6 +242,8 @@ public class GameController {
                     winnerLabel.setText(gameState.getWinner().getName() +" won the game!");
                     gameOver = true;
                     stopWatchTimeline.stop();
+                    gameResultDao = new GameResultDao();
+                    gameResultDao.persist(createGameResult());
                 }
             } else {
                 puck.setX(squareSize / 2 + squareSize * prevX);
@@ -243,6 +251,22 @@ public class GameController {
                 puck.draw();
             }
         }
+    }
+
+    private GameResult createGameResult() {
+        String color = "";
+        if (gameState.getWinner().getPlayerId() == 1) {
+            color = "Blue";
+        }
+        else {
+            color = "Red";
+        }
+        return GameResult.builder()
+                .name(gameState.getWinner().getName())
+                .color(color)
+                .steps(gameState.getWinner().getStepCount())
+                .duration(Duration.between(startTime, Instant.now()))
+                .build();
     }
 
     private void increasePlayerSteps(Player currentPlayer) {
