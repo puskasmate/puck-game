@@ -16,7 +16,7 @@ import java.util.Optional;
 public abstract class GenericJpaDao<T> {
 
     protected Class<T> entityClass;
-    EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("puckgame");//
+    EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("puckgame");
     protected EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
 
     /**
