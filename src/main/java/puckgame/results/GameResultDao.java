@@ -15,17 +15,15 @@ public class GameResultDao extends GenericJpaDao<GameResult> {
     }
 
     /**
-     * Returns the list of {@code n} best results with respect to the number of steps
+     * Returns the list of all results with respect to the number of steps
      * and the time spent for playing the game.
      *
-     * @param n the maximum number of results to be returned
-     * @return the list of {@code n} best results with respect to the number of steps
+     * @return the list of all results with respect to the number of steps
      * and the time spent for playing the game
      */
     @Transactional
-    public List<GameResult> findBest(int n) {
+    public List<GameResult> findAll() {
         return entityManager.createQuery("SELECT r FROM GameResult r order by r.steps asc, r.duration asc", GameResult.class)
-                .setMaxResults(n)
                 .getResultList();
     }
 }

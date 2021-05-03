@@ -33,7 +33,6 @@ public class PuckGameApp extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/launch.fxml"));
         primaryStage.setTitle("Puck Game");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
