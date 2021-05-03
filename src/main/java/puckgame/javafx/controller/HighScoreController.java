@@ -20,7 +20,6 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import puckgame.results.GameResult;
 import puckgame.results.GameResultDao;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.ZonedDateTime;
@@ -31,7 +30,6 @@ import java.util.List;
 @Slf4j
 public class HighScoreController {
 
-    @Inject
     private GameResultDao gameResultDao;
 
     @FXML
