@@ -67,6 +67,7 @@ public class GameState {
 
     /**
      * 2D array representing the state of the game.
+     *
      * The blue pucks are represented as 1's, the red pucks are represented as 2's, and the empty spaces as 0's.
      */
     @Getter(AccessLevel.PUBLIC)
@@ -86,6 +87,7 @@ public class GameState {
 
     /**
      * Constructor which takes a 2D array and set this array to the grid.
+     *
      * @param grid 2D array that represents the state of the game and the board.
      */
     public GameState(int [][] grid) {
@@ -94,10 +96,12 @@ public class GameState {
 
     /**
      * A method that checks if the current move is enabled or not.
+     *
      * @param currentPlayer The player who has to move at the current state.
      * @param row The row where the the current puck stands on the table.
      * @param col The column where the current puck stands on the table.
      * @param direction The direction where the player wants to move to.
+     *
      * @return {@code true} if the player can move to the wanted direction, {@code false} otherwise.
      */
     public boolean isValidMove(Player currentPlayer, int row, int col, int direction) {
@@ -224,6 +228,7 @@ public class GameState {
 
     /**
      * Method to change the array if the move wanted move is valid.
+     *
      * @param currentPlayer The player who has to move at the current state.
      * @param row The row where the the current puck stands on the table.
      * @param col The column where the current puck stands on the table.
@@ -265,6 +270,7 @@ public class GameState {
 
     /**
      * A method that checks if the player with the red pucks has won the game.
+     *
      * @return {@code true} if the player with the red pucks has won the game, {@code false} otherwise.
      */
     public boolean hasRedWon() {
@@ -293,6 +299,7 @@ public class GameState {
 
     /**
      * A method that checks if the player with the blue pucks has won the game.
+     *
      * @return {@code true} if the player with the blue pucks has won the game, {@code false} otherwise.
      */
     public boolean hasBlueWon() {
@@ -333,6 +340,7 @@ public class GameState {
 
     /**
      * A method that checks if the game is over.
+     *
      * @return {@code true} if the game is over, {@code false} otherwise.
      */
     public boolean isGameOver() {
