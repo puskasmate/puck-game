@@ -309,6 +309,7 @@ public class GameController {
         Parent root = fxmlLoader.load();
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
+        stage.setResizable(true);
         stage.show();
         log.info("Loading highscores..");
     }

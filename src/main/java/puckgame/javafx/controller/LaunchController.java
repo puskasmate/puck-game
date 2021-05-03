@@ -57,6 +57,7 @@ public class LaunchController {
         gameController.setPlayersName(p1name.getText(), p2name.getText());
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
+        stage.setResizable(false);
         stage.show();
         log.info("The names has been set to {} and {}, loading game scene", p1name.getText(), p2name.getText());
     }
@@ -73,6 +74,7 @@ public class LaunchController {
         Parent root = fxmlLoader.load();
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
+        stage.setResizable(true);
         stage.show();
         log.info("Loading highscores..");
     }
