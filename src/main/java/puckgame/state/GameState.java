@@ -60,6 +60,12 @@ public class GameState {
     private Player winner;
 
     /**
+     * Player object that stores the loser of the game.
+     */
+    @Getter(AccessLevel.PUBLIC)
+    private Player loser;
+
+    /**
      * 2D array representing the state of the game.
      * The blue pucks are represented as 1's, the red pucks are represented as 2's, and the empty spaces as 0's.
      */
@@ -262,8 +268,6 @@ public class GameState {
      * @return {@code true} if the player with the red pucks has won the game, {@code false} otherwise.
      */
     public boolean hasRedWon() {
-        boolean duplicates = false;
-
         ArrayList<Integer> xCors = new ArrayList<>();
         ArrayList<Integer> yCors = new ArrayList<>();
         for(int row = 0; row < grid.length; row++) {
@@ -278,14 +282,13 @@ public class GameState {
         for(int i = 0; i < xCors.size(); i++) {
             for(int j = i+1; j < xCors.size(); j++) {
                 if(i != j && xCors.get(i) == xCors.get(j) || yCors.get(i) == yCors.get(j)) {
-                    duplicates = true;
+                    winner = redPlayer;
+                    loser = bluePlayer;
+                    return true;
                 }
             }
         }
-        if (duplicates) {
-            winner = redPlayer;
-        }
-        return duplicates;
+        return false;
     }
 
     /**
@@ -319,6 +322,7 @@ public class GameState {
 
         if (count == 3) {
             winner = bluePlayer;
+            loser = redPlayer;
             return true;
         }
 

@@ -57,8 +57,6 @@ public class LaunchController {
         gameController.setPlayersName(p1name.getText(), p2name.getText());
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
-        stage.setMaxWidth(800);
-        stage.setMinHeight(800);
         stage.show();
         log.info("The names has been set to {} and {}, loading game scene", p1name.getText(), p2name.getText());
     }

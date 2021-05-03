@@ -263,6 +263,7 @@ public class GameController {
                 .color(color)
                 .steps(gameState.getWinner().getStepCount())
                 .duration(Duration.between(startTime, Instant.now()))
+                .opponentName(gameState.getLoser().getName())
                 .build();
     }
 

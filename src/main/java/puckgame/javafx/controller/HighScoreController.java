@@ -51,6 +51,9 @@ public class HighScoreController {
     private TableColumn<GameResult, ZonedDateTime> created;
 
     @FXML
+    private TableColumn<GameResult, String> opponent;
+
+    @FXML
     private void initialize() {
         log.debug("Loading high scores...");
         gameResultDao = new GameResultDao();
@@ -61,6 +64,7 @@ public class HighScoreController {
         steps.setCellValueFactory(new PropertyValueFactory<>("steps"));
         duration.setCellValueFactory(new PropertyValueFactory<>("duration"));
         created.setCellValueFactory(new PropertyValueFactory<>("created"));
+        opponent.setCellValueFactory(new PropertyValueFactory<>("opponentName"));
 
         duration.setCellFactory(column -> {
             TableCell<GameResult, Duration> cell = new TableCell<GameResult, Duration>() {

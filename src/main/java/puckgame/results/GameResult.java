@@ -52,6 +52,12 @@ public class GameResult {
     private Duration duration;
 
     /**
+     * The name of the opponent.
+     */
+    @Column(nullable = false)
+    private String opponentName;
+
+    /**
      * The time when the player won the game.
      */
     @Column(nullable = false)

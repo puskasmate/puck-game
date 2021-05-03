@@ -11,11 +11,12 @@
     <children>
         <TableView fx:id="highScoreTable" editable="true" layoutX="25.0" layoutY="74.0" prefHeight="550.0" prefWidth="650.0">
             <columns>
-                <TableColumn fx:id="player" prefWidth="200.0" text="Player" />
-                <TableColumn fx:id="color" prefWidth="100.0" text="Color" />
+                <TableColumn fx:id="player" prefWidth="130.0" text="Player" />
+                <TableColumn fx:id="color" prefWidth="50.0" text="Color" />
                 <TableColumn fx:id="steps" prefWidth="50.0" text="Steps" />
                 <TableColumn fx:id="duration" prefWidth="100.0" text="Duration" />
-                <TableColumn fx:id="created" prefWidth="295.0" text="Date" />
+                <TableColumn fx:id="created" prefWidth="220.0" text="Date" />
+                <TableColumn fx:id="opponent" prefWidth="130.0" text="Opponent" />
             </columns>
         </TableView>
         <Label layoutX="272.0" layoutY="32.0" text="High Scores">
