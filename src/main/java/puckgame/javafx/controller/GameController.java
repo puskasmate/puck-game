@@ -137,28 +137,24 @@ public class GameController {
                 Circle c = new Circle();
                 if (i == 4 && j == 0 || i == 2 && j == 2 || i == 0 && j == 4) {
                     c.setFill(Color.BLUE);
-                    c.setStroke(Color.BLACK);
-
                     double radius = squareSize / 3.0;
                     int x = squareSize / 2 + squareSize * (0+i);
                     int y = squareSize / 2 + squareSize * (0+j);
                     Puck puck = new Puck(x, y, radius, c, 1);
                     pucks.add(puck);
-                    dealWithClick(c, puck);
+                    setListeners(c, puck);
                     pane.getChildren().add(c);
                     puck.draw();
 
                 }
                 else {
                     c.setFill(Color.RED);
-                    c.setStroke(Color.BLACK);
-
                     double radius = squareSize / 3.0;
                     int x = squareSize / 2 + squareSize * (0+i);
                     int y = squareSize / 2 + squareSize * (0+j);
                     Puck puck = new Puck(x, y, radius, c, 2);
                     pucks.add(puck);
-                    dealWithClick(c, puck);
+                    setListeners(c, puck);
                     pane.getChildren().add(c);
                     puck.draw();
 
@@ -180,7 +176,7 @@ public class GameController {
         }
     }
 
-    public void dealWithClick(Circle c, Puck puck) {
+    public void setListeners(Circle c, Puck puck) {
         c.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, puck));
         c.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, puck));
         c.setOnMouseReleased(mouseEvent -> mouseReleased(mouseEvent, puck));
@@ -309,7 +305,6 @@ public class GameController {
         Parent root = fxmlLoader.load();
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
-        stage.setResizable(true);
         stage.show();
         log.info("Loading highscores..");
     }
