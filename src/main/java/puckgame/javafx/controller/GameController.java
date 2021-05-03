@@ -30,10 +30,12 @@ import puckgame.javafx.Puck;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
+/**
+ * The controller class for the game scene.
+ */
 @Slf4j
 public class GameController {
 
@@ -51,12 +53,6 @@ public class GameController {
 
     @FXML
     private Text p2steps;
-
-    @FXML
-    private Button exitButton;
-
-    @FXML
-    private Button resetButton;
 
     @FXML
     private Label winnerLabel;
@@ -82,6 +78,9 @@ public class GameController {
     private Instant startTime;
     private Timeline stopWatchTimeline;
 
+    /**
+     * The initialize method that runs when the scene is opened.
+     */
     @FXML
     public void initialize() {
         Platform.runLater(() -> {
@@ -93,6 +92,9 @@ public class GameController {
         initGame();
     }
 
+    /**
+     * A method that creates and runs the stopwatch.
+     */
     private void createStopWatch() {
         stopWatchTimeline = new Timeline(new KeyFrame(javafx.util.Duration.ZERO, e -> {
             long millisElapsed = startTime.until(Instant.now(), ChronoUnit.MILLIS);
@@ -102,6 +104,9 @@ public class GameController {
         stopWatchTimeline.play();
     }
 
+    /**
+     * A method that initialize the starting state.
+     */
     public void initGame() {
         p1nameText.setFill(Color.GREEN);
         p2nameText.setFill(Color.BLACK);
@@ -122,6 +127,9 @@ public class GameController {
         displayGrid();
     }
 
+    /**
+     * A method that draws the board to the scene.
+     */
     public void displayGrid() {
         for (int i = 0; i < size; i += squareSize) {
             for (int j = 0; j < size; j += squareSize) {
@@ -163,6 +171,9 @@ public class GameController {
         }
     }
 
+    /**
+     * A method that switches the current player after he/she took a step.
+     */
     public void switchCurrentPlayer() {
         if (currentPlayer.equals(player1)) {
             currentPlayer = player2;
@@ -176,12 +187,22 @@ public class GameController {
         }
     }
 
+    /**
+     * A method that sets listeners to a puck.
+     * @param c the circle on the scene
+     * @param puck the puck object that will be moved
+     */
     public void setListeners(Circle c, Puck puck) {
         c.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, puck));
         c.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, puck));
         c.setOnMouseReleased(mouseEvent -> mouseReleased(mouseEvent, puck));
     }
 
+    /**
+     * A mousePressed method that is invoked when the mouse is pressed on a puck.
+     * @param mouseEvent the current mouse event
+     * @param puck the puck that has been pressed
+     */
     public void mousePressed(MouseEvent mouseEvent, Puck puck) {
         if (!gameOver) {
             prevX = (int) puck.getX() / squareSize;
@@ -189,6 +210,11 @@ public class GameController {
         }
     }
 
+    /**
+     * A mouseDragged method that is invoked when the mouse is dragged on a puck.
+     * @param mouseEvent the current mouse event
+     * @param puck the puck that has been dragged
+     */
     public void mouseDragged(MouseEvent mouseEvent, Puck puck) {
         if (!gameOver) {
             puck.setX(puck.getX() + mouseEvent.getX());
@@ -197,6 +223,11 @@ public class GameController {
         }
     }
 
+    /**
+     * A mouseReleased method that is invoked when a puck is being released.
+     * @param mouseEvent the current mouse event
+     * @param puck the puck that has been dragged and released
+     */
     public void mouseReleased(MouseEvent mouseEvent, Puck puck) {
         if (!gameOver) {
             int gridX = (int) puck.getX() / squareSize;
@@ -250,6 +281,10 @@ public class GameController {
         }
     }
 
+    /**
+     * A method that creates the result of the game.
+     * @return A {@code GameResult} object that stores the result of the game
+     */
     private GameResult createGameResult() {
         String color = "";
         if (gameState.getWinner().getPlayerId() == 1) {
@@ -267,6 +302,10 @@ public class GameController {
                 .build();
     }
 
+    /**
+     * A method that increases the player's steps.
+     * @param currentPlayer the player who moved in the current round
+     */
     private void increasePlayerSteps(Player currentPlayer) {
         currentPlayer.setStepCount(currentPlayer.getStepCount()+1);
         if (currentPlayer.equals(player1)) {
@@ -277,29 +316,53 @@ public class GameController {
         }
     }
 
+    /**
+     * A method that has been invoked when a blue puck has been moved and checks if there any red puck on the field and removes it.
+     * @param puck a puck on the board
+     * @param dirX the X coordinate where a blue puck will be moved
+     * @param dirY the Y coordinate where a blue puck will be moved
+     */
     public void removeRedPuck(Puck puck, int dirX, int dirY) {
         if (puck.getPlayerId() == 2 && puck.getX() == dirX && puck.getY() == dirY) {
             puck.remove();
         }
     }
 
+    /**
+     * A method that sets the player's name to {@code p1name} and {@code p2name}.
+     * @param p1name the name of Player One (Blue)
+     * @param p2name the name of Player Two (Red)
+     */
     public void setPlayersName(String p1name, String p2name) {
         this.p1name = p1name;
         this.p2name = p2name;
     }
 
+    /**
+     * A method that is called when a player clicks on the exit button.
+     * @param actionEvent the current action event
+     */
     public void exitGame(ActionEvent actionEvent) {
         log.debug("{} button is pressed", ((Button)actionEvent.getSource()).getText());
         log.info("Exiting...");
         Platform.exit();
     }
 
+    /**
+     * A method that is called when a player clicks on the reset button.
+     * @param actionEvent the current action event
+     */
     public void resetGame(ActionEvent actionEvent) {
         log.debug("{} button is pressed", ((Button)actionEvent.getSource()).getText());
         log.info("Resetting game...");
         initGame();
     }
 
+    /**
+     * A method that is called when a player clicks on the high score button.
+     * @param actionEvent the current action event
+     * @throws IOException if the wanted scene can not be found
+     */
     public void handleHighScoreButton(ActionEvent actionEvent) throws IOException {
         log.debug("{} button has been pressed.", ((Button)actionEvent.getSource()).getText());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/highscores.fxml"));

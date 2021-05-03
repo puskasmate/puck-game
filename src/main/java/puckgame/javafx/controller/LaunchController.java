@@ -18,11 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+/**
+ * The controller class for the launch scene.
+ */
 @Slf4j
 public class LaunchController {
-
-    @FXML
-    private Pane pane;
 
     @FXML
     private TextField p1name;
@@ -34,11 +34,11 @@ public class LaunchController {
     private Button startButton;
 
     @FXML
-    private Button exitButton;
-
-    @FXML
     private ImageView image;
 
+    /**
+     * The initialize method that is called when the scene is opened.
+     */
     @FXML
     public void initialize() {
         startButton.disableProperty().bind(
@@ -49,6 +49,11 @@ public class LaunchController {
         image.setImage(new Image(getClass().getResource("/images/pucks.png").toExternalForm()));
     }
 
+    /**
+     * A method that is called when a player clicks on start button.
+     * @param actionEvent the current action event
+     * @throws IOException if the wanted scene can not be found
+     */
     @FXML
     public void startGame(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/game.fxml"));
@@ -61,12 +66,21 @@ public class LaunchController {
         log.info("The names has been set to {} and {}, loading game scene", p1name.getText(), p2name.getText());
     }
 
+    /**
+     * A method that is called when a player clicks on the exit button.
+     * @param actionEvent the current action event
+     */
     public void exitGame(ActionEvent actionEvent) {
         log.debug("{} button is pressed", ((Button)actionEvent.getSource()).getText());
         log.info("Exiting...");
         Platform.exit();
     }
 
+    /**
+     * A method that is called when a player clicks on the high scores button.
+     * @param actionEvent the current action event
+     * @throws IOException if the wanted scene can not be found
+     */
     public void handleHighScoreButton(ActionEvent actionEvent) throws IOException {
         log.debug("{} button has been pressed.", ((Button)actionEvent.getSource()).getText());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/highscores.fxml"));

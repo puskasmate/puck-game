@@ -13,6 +13,9 @@ import util.guice.PersistenceModule;
 
 import java.util.List;
 
+/**
+ * The class that controls the application GUI.
+ */
 @Slf4j
 public class PuckGameApp extends Application {
 

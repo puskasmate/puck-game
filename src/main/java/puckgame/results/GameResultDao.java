@@ -10,6 +10,9 @@ import java.util.List;
  */
 public class GameResultDao extends GenericJpaDao<GameResult> {
 
+    /**
+     * The constructor that accepts no arguments.
+     */
     public GameResultDao() {
         super(GameResult.class);
     }
