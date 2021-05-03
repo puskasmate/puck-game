@@ -40,7 +40,7 @@ public class LaunchController {
      * The initialize method that is called when the scene is opened.
      */
     @FXML
-    public void initialize() {
+    private void initialize() {
         startButton.disableProperty().bind(
                 Bindings.isEmpty(p1name.textProperty())
                 .or(Bindings.isEmpty(p2name.textProperty()))
@@ -55,7 +55,7 @@ public class LaunchController {
      * @throws IOException if the wanted scene can not be found
      */
     @FXML
-    public void startGame(ActionEvent actionEvent) throws IOException {
+    private void startGame(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/game.fxml"));
         Parent root = loader.load();
         GameController gameController = loader.<GameController>getController();

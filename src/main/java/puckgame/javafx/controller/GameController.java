@@ -82,7 +82,7 @@ public class GameController {
      * The initialize method that runs when the scene is opened.
      */
     @FXML
-    public void initialize() {
+    private void initialize() {
         Platform.runLater(() -> {
             p1nameText.setText(p1name);
             p2nameText.setText(p2name);
@@ -107,7 +107,7 @@ public class GameController {
     /**
      * A method that initialize the starting state.
      */
-    public void initGame() {
+    private void initGame() {
         p1nameText.setFill(Color.GREEN);
         p2nameText.setFill(Color.BLACK);
         startTime = Instant.now();
@@ -130,7 +130,7 @@ public class GameController {
     /**
      * A method that draws the board to the scene.
      */
-    public void displayGrid() {
+    private void displayGrid() {
         for (int i = 0; i < size; i += squareSize) {
             for (int j = 0; j < size; j += squareSize) {
                 Rectangle r = new Rectangle(i, j, squareSize, squareSize);
@@ -174,7 +174,7 @@ public class GameController {
     /**
      * A method that switches the current player after he/she took a step.
      */
-    public void switchCurrentPlayer() {
+    private void switchCurrentPlayer() {
         if (currentPlayer.equals(player1)) {
             currentPlayer = player2;
             this.p2nameText.setFill(Color.GREEN);
@@ -192,7 +192,7 @@ public class GameController {
      * @param c the circle on the scene
      * @param puck the puck object that will be moved
      */
-    public void setListeners(Circle c, Puck puck) {
+    private void setListeners(Circle c, Puck puck) {
         c.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, puck));
         c.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, puck));
         c.setOnMouseReleased(mouseEvent -> mouseReleased(mouseEvent, puck));
@@ -203,7 +203,7 @@ public class GameController {
      * @param mouseEvent the current mouse event
      * @param puck the puck that has been pressed
      */
-    public void mousePressed(MouseEvent mouseEvent, Puck puck) {
+    private void mousePressed(MouseEvent mouseEvent, Puck puck) {
         if (!gameOver) {
             prevX = (int) puck.getX() / squareSize;
             prevY = (int) puck.getY() / squareSize;
@@ -215,7 +215,7 @@ public class GameController {
      * @param mouseEvent the current mouse event
      * @param puck the puck that has been dragged
      */
-    public void mouseDragged(MouseEvent mouseEvent, Puck puck) {
+    private void mouseDragged(MouseEvent mouseEvent, Puck puck) {
         if (!gameOver) {
             puck.setX(puck.getX() + mouseEvent.getX());
             puck.setY(puck.getY() + mouseEvent.getY());
@@ -228,7 +228,7 @@ public class GameController {
      * @param mouseEvent the current mouse event
      * @param puck the puck that has been dragged and released
      */
-    public void mouseReleased(MouseEvent mouseEvent, Puck puck) {
+    private void mouseReleased(MouseEvent mouseEvent, Puck puck) {
         if (!gameOver) {
             int gridX = (int) puck.getX() / squareSize;
             int gridY = (int) puck.getY() / squareSize;
@@ -322,7 +322,7 @@ public class GameController {
      * @param dirX the X coordinate where a blue puck will be moved
      * @param dirY the Y coordinate where a blue puck will be moved
      */
-    public void removeRedPuck(Puck puck, int dirX, int dirY) {
+    private void removeRedPuck(Puck puck, int dirX, int dirY) {
         if (puck.getPlayerId() == 2 && puck.getX() == dirX && puck.getY() == dirY) {
             puck.remove();
         }
