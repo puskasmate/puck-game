@@ -32,13 +32,6 @@ public class Puck {
     private Circle c;
 
     /**
-     * An integer value that stores the player.
-     * The player with the blue pucks is represented as 1, the player with the red pucks is represented as 2.
-     */
-    private int playerId;
-
-
-    /**
      * A method that draws a puck to the grid.
      */
     public void draw() {

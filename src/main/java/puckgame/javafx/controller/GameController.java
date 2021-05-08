@@ -140,32 +140,33 @@ public class GameController {
             }
         }
         pucks = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                Circle c = new Circle();
-                if (i == 4 && j == 0 || i == 2 && j == 2 || i == 0 && j == 4) {
+        for (int i = 0; i < gameState.getGrid().length; i++) {
+            for (int j = 0; j < gameState.getGrid().length; j++) {
+                if (gameState.getGrid()[j][i] == 1) {
+                    Circle c = new Circle();
                     c.setFill(Color.BLUE);
                     double radius = squareSize / 3.0;
                     int x = squareSize / 2 + squareSize * (0+i);
                     int y = squareSize / 2 + squareSize * (0+j);
-                    Puck puck = new Puck(x, y, radius, c, 1);
+                    Puck puck = new Puck(x, y, radius, c);
                     pucks.add(puck);
                     setListeners(c, puck);
                     pane.getChildren().add(c);
                     puck.draw();
-
                 }
                 else {
-                    c.setFill(Color.RED);
-                    double radius = squareSize / 3.0;
-                    int x = squareSize / 2 + squareSize * (0+i);
-                    int y = squareSize / 2 + squareSize * (0+j);
-                    Puck puck = new Puck(x, y, radius, c, 2);
-                    pucks.add(puck);
-                    setListeners(c, puck);
-                    pane.getChildren().add(c);
-                    puck.draw();
-
+                    if (gameState.getGrid()[j][i] == 2) {
+                        Circle c = new Circle();
+                        c.setFill(Color.RED);
+                        double radius = squareSize / 3.0;
+                        int x = squareSize / 2 + squareSize * (0+i);
+                        int y = squareSize / 2 + squareSize * (0+j);
+                        Puck puck = new Puck(x, y, radius, c);
+                        pucks.add(puck);
+                        setListeners(c, puck);
+                        pane.getChildren().add(c);
+                        puck.draw();
+                    }
                 }
             }
         }
@@ -250,34 +251,29 @@ public class GameController {
                     }
                 }
             }
-            if (gameState.isValidMove(currentPlayer, prevY, prevX, dir)) {
-                int dirX = (int) (squareSize / 2) + squareSize * gridX;
-                int dirY = (int) (squareSize / 2) + squareSize * gridY;
-                gameState.move(currentPlayer, prevY, prevX, dir);
-                if (puck.getPlayerId() == 1) {
-                    for (int i = 0; i < pucks.size(); i++) {
-                        removeRedPuck(pucks.get(i), dirX, dirY);
-                    }
-                }
-                puck.setX(dirX);
-                puck.setY(dirY);
-                puck.draw();
-                increasePlayerSteps(currentPlayer);
-                switchCurrentPlayer();
-                if (gameState.isGameOver()) {
-                    log.info("Congratulations {}, you have won the game in {} steps!", gameState.getWinner().getName(), gameState.getWinner().getStepCount());
-                    winnerLabel.setText(gameState.getWinner().getName() +" won the game!");
-                    gameOver = true;
-                    stopWatchTimeline.stop();
-                    log.debug("Saving result to database..");
-                    gameResultDao = new GameResultDao();
-                    gameResultDao.persist(createGameResult());
-                }
-            } else {
-                puck.setX(squareSize / 2 + squareSize * prevX);
-                puck.setY(squareSize / 2 + squareSize * prevY);
-                puck.draw();
+            if (puck.getX() < 0 || puck.getY() < 0) {
+                dir = -2;
             }
+            try {
+                if (gameState.isValidMove(currentPlayer, prevY, prevX, dir)) {
+                        gameState.move(currentPlayer, prevY, prevX, dir);
+                        increasePlayerSteps(currentPlayer);
+                        switchCurrentPlayer();
+                        if (gameState.isGameOver()) {
+                            log.info("Congratulations {}, you have won the game in {} steps!", gameState.getWinner().getName(), gameState.getWinner().getStepCount());
+                            winnerLabel.setText(gameState.getWinner().getName() + " won the game!");
+                            gameOver = true;
+                            stopWatchTimeline.stop();
+                            log.debug("Saving result to database..");
+                            gameResultDao = new GameResultDao();
+                            gameResultDao.persist(createGameResult());
+                        }
+                    }
+            } catch (IndexOutOfBoundsException e) {
+                puck.remove();
+            }
+            puck.remove();
+            displayGrid();
         }
     }
 
@@ -316,17 +312,6 @@ public class GameController {
         }
     }
 
-    /**
-     * A method that has been invoked when a blue puck has been moved and checks if there any red puck on the field and removes it.
-     * @param puck a puck on the board
-     * @param dirX the X coordinate where a blue puck will be moved
-     * @param dirY the Y coordinate where a blue puck will be moved
-     */
-    private void removeRedPuck(Puck puck, int dirX, int dirY) {
-        if (puck.getPlayerId() == 2 && puck.getX() == dirX && puck.getY() == dirY) {
-            puck.remove();
-        }
-    }
 
     /**
      * A method that sets the player's name to {@code p1name} and {@code p2name}.
@@ -372,5 +357,4 @@ public class GameController {
         stage.show();
         log.info("Loading highscores..");
     }
-
 }
