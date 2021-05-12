@@ -39,4 +39,8 @@ mvn -P clover site
 
 ### Requirements
 
-Building the project requires JDK 11 and [Apache Maven](https://maven.apache.org/).
+Building the project requires JDK 11 or later and [Apache Maven](https://maven.apache.org/).
+
+**NOTE**
+
+The latest version of JDK at the time when the project was created is 16. It is possible that you have to update the version of the dependencies and/or plugins to work with JDKs above 16.
