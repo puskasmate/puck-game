@@ -4,11 +4,11 @@ A simple puck game played by 2 players.
 
 ### About the game 
 
-The game is played on a 5x5 board with two types of pucks. The first one is the blue puck and the second one is the red puck. 
+The game is played on a 5x5 board with two types of pucks. The first one is the blue, and the other one is the red. 
 
 Both players can only move 1 field to up/down/left/right. 
 
-The player with the blue pucks wins the game if he/she is not able to move. The player with the red pucks wins the game if there are at least 2 blue puck in the same column or row.
+The player with the blue pucks wins the game if he/she is not able to move. The player with the red pucks wins the game if there are at least 2 blue pucks in the same column or row.
 
 ### Allowed moves
 
