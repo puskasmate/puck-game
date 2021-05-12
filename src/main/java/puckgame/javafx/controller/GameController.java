@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 
 /**
  * The controller class for the game scene.
@@ -65,7 +64,6 @@ public class GameController {
     private int size = 600;
     private int spots = 5;
     private int squareSize = size / spots;
-    private ArrayList<Puck> pucks;
     private GameState gameState;
     private Player player1;
     private Player player2;
@@ -90,18 +88,6 @@ public class GameController {
             player2.setName(p2name);
         });
         initGame();
-    }
-
-    /**
-     * A method that creates and runs the stopwatch.
-     */
-    private void createStopWatch() {
-        stopWatchTimeline = new Timeline(new KeyFrame(javafx.util.Duration.ZERO, e -> {
-            long millisElapsed = startTime.until(Instant.now(), ChronoUnit.MILLIS);
-            stopWatchLabel.setText(DurationFormatUtils.formatDuration(millisElapsed, "HH:mm:ss"));
-        }), new KeyFrame(javafx.util.Duration.seconds(1)));
-        stopWatchTimeline.setCycleCount(Animation.INDEFINITE);
-        stopWatchTimeline.play();
     }
 
     /**
@@ -139,17 +125,15 @@ public class GameController {
                 pane.getChildren().addAll(r);
             }
         }
-        pucks = new ArrayList<>();
+        double radius = squareSize / 3.0;
         for (int i = 0; i < gameState.getGrid().length; i++) {
             for (int j = 0; j < gameState.getGrid().length; j++) {
+                int x = squareSize / 2 + squareSize * (0+i);
+                int y = squareSize / 2 + squareSize * (0+j);
                 if (gameState.getGrid()[j][i] == 1) {
                     Circle c = new Circle();
                     c.setFill(Color.BLUE);
-                    double radius = squareSize / 3.0;
-                    int x = squareSize / 2 + squareSize * (0+i);
-                    int y = squareSize / 2 + squareSize * (0+j);
                     Puck puck = new Puck(x, y, radius, c);
-                    pucks.add(puck);
                     setListeners(c, puck);
                     pane.getChildren().add(c);
                     puck.draw();
@@ -158,11 +142,7 @@ public class GameController {
                     if (gameState.getGrid()[j][i] == 2) {
                         Circle c = new Circle();
                         c.setFill(Color.RED);
-                        double radius = squareSize / 3.0;
-                        int x = squareSize / 2 + squareSize * (0+i);
-                        int y = squareSize / 2 + squareSize * (0+j);
                         Puck puck = new Puck(x, y, radius, c);
-                        pucks.add(puck);
                         setListeners(c, puck);
                         pane.getChildren().add(c);
                         puck.draw();
@@ -170,33 +150,6 @@ public class GameController {
                 }
             }
         }
-    }
-
-    /**
-     * A method that switches the current player after he/she took a step.
-     */
-    private void switchCurrentPlayer() {
-        if (currentPlayer.equals(player1)) {
-            currentPlayer = player2;
-            this.p2nameText.setFill(Color.GREEN);
-            this.p1nameText.setFill(Color.BLACK);
-        }
-        else {
-            currentPlayer = player1;
-            this.p1nameText.setFill(Color.GREEN);
-            this.p2nameText.setFill(Color.BLACK);
-        }
-    }
-
-    /**
-     * A method that sets listeners to a puck.
-     * @param c the circle on the scene
-     * @param puck the puck object that will be moved
-     */
-    private void setListeners(Circle c, Puck puck) {
-        c.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, puck));
-        c.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, puck));
-        c.setOnMouseReleased(mouseEvent -> mouseReleased(mouseEvent, puck));
     }
 
     /**
@@ -256,25 +209,37 @@ public class GameController {
             }
             try {
                 if (gameState.isValidMove(currentPlayer, prevY, prevX, dir)) {
-                        gameState.move(currentPlayer, prevY, prevX, dir);
-                        increasePlayerSteps(currentPlayer);
-                        switchCurrentPlayer();
-                        if (gameState.isGameOver()) {
-                            log.info("Congratulations {}, you have won the game in {} steps!", gameState.getWinner().getName(), gameState.getWinner().getStepCount());
-                            winnerLabel.setText(gameState.getWinner().getName() + " won the game!");
-                            gameOver = true;
-                            stopWatchTimeline.stop();
-                            log.debug("Saving result to database..");
-                            gameResultDao = new GameResultDao();
-                            gameResultDao.persist(createGameResult());
-                        }
+                    gameState.move(currentPlayer, prevY, prevX, dir);
+                    increasePlayerSteps(currentPlayer);
+                    switchCurrentPlayer();
+                    if (gameState.isGameOver()) {
+                        log.info("Congratulations {}, you have won the game in {} steps!", gameState.getWinner().getName(), gameState.getWinner().getStepCount());
+                        winnerLabel.setText(gameState.getWinner().getName() + " won the game!");
+                        gameOver = true;
+                        stopWatchTimeline.stop();
+                        log.debug("Saving result to database..");
+                        gameResultDao = new GameResultDao();
+                        gameResultDao.persist(createGameResult());
                     }
+                }
             } catch (IndexOutOfBoundsException e) {
                 puck.remove();
+                displayGrid();
             }
             puck.remove();
             displayGrid();
         }
+    }
+
+    /**
+     * A method that sets listeners to a puck.
+     * @param c the circle on the scene
+     * @param puck the puck object that will be moved
+     */
+    private void setListeners(Circle c, Puck puck) {
+        c.setOnMousePressed(mouseEvent -> mousePressed(mouseEvent, puck));
+        c.setOnMouseDragged(mouseEvent -> mouseDragged(mouseEvent, puck));
+        c.setOnMouseReleased(mouseEvent -> mouseReleased(mouseEvent, puck));
     }
 
     /**
@@ -299,6 +264,22 @@ public class GameController {
     }
 
     /**
+     * A method that switches the current player after he/she took a step.
+     */
+    private void switchCurrentPlayer() {
+        if (currentPlayer.equals(player1)) {
+            currentPlayer = player2;
+            this.p2nameText.setFill(Color.GREEN);
+            this.p1nameText.setFill(Color.BLACK);
+        }
+        else {
+            currentPlayer = player1;
+            this.p1nameText.setFill(Color.GREEN);
+            this.p2nameText.setFill(Color.BLACK);
+        }
+    }
+
+    /**
      * A method that increases the player's steps.
      * @param currentPlayer the player who moved in the current round
      */
@@ -312,6 +293,17 @@ public class GameController {
         }
     }
 
+    /**
+     * A method that creates and runs the stopwatch.
+     */
+    private void createStopWatch() {
+        stopWatchTimeline = new Timeline(new KeyFrame(javafx.util.Duration.ZERO, e -> {
+            long millisElapsed = startTime.until(Instant.now(), ChronoUnit.MILLIS);
+            stopWatchLabel.setText(DurationFormatUtils.formatDuration(millisElapsed, "HH:mm:ss"));
+        }), new KeyFrame(javafx.util.Duration.seconds(1)));
+        stopWatchTimeline.setCycleCount(Animation.INDEFINITE);
+        stopWatchTimeline.play();
+    }
 
     /**
      * A method that sets the player's name to {@code p1name} and {@code p2name}.
